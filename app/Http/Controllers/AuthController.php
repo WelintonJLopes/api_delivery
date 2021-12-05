@@ -9,11 +9,12 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $token = auth('api')->attempt(request(['email', 'password']));
+        $token = auth('api')->attempt(request(['cpf', 'password']));
+        
         if ($token) {
             return $this->respondWithToken($token);
         } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Não autorizado'], 401);
         }
     }
 
