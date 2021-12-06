@@ -28,6 +28,20 @@ class CupomController extends Controller
         if ($request->has('filtro')) {
             $cupomRepository->filtro($request->filtro);         
         }
+
+        // Verifica de a request tem o parametro atributos_usuario
+        if ($request->has('atributos_usuario')) {
+            $cupomRepository->selectAtributosRegistrosRelacionados('users:id,' . $request->atributos_usuario);
+        } else {
+            $cupomRepository->selectAtributosRegistrosRelacionados('users');
+        }
+
+        // Verifica de a request tem o parametro atributos_empresa
+        if ($request->has('atributos_empresa')) {
+            $cupomRepository->selectAtributosRegistrosRelacionados('empresas:id,' . $request->atributos_empresas);
+        } else {
+            $cupomRepository->selectAtributosRegistrosRelacionados('empresas');
+        }
         
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
@@ -76,6 +90,16 @@ class CupomController extends Controller
         $request->validate($this->cupom->rules());        
         // Salva a request na tabela e retorna o registro inserido
         $cupom = $this->cupom->create($request->all());
+        // Insere o relacionamento de usuarios na tabela usuarios_cupons
+        foreach ($request->usuarios as $user_id) {
+            $cupom->users()->attach($user_id, ['utilizado' => false]);
+        }
+        // Insere o relacionamento de usuarios na tabela usuarios_cupons
+        foreach ($request->empresas as $empresa_id) {
+            $cupom->empresas()->attach($empresa_id, ['quantidade' => $request->quantidade]);
+        }
+        // Busca na tabela por id
+        $cupom = $this->cupom->with('users')->with('empresas')->find($cupom->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($cupom, 201);
     }
@@ -89,7 +113,7 @@ class CupomController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $cupom = $this->cupom->find($id);
+        $cupom = $this->cupom->with('users')->with('empresas')->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($cupom === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -150,6 +174,9 @@ class CupomController extends Controller
         if ($cupom === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }
+        // Removendo os registros de relacionamento
+        $cupom->users()->sync([]);
+        $cupom->empresas()->sync([]);
         // Deleta o registro selecionado
         $cupom->delete();
 

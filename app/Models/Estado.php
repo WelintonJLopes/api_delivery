@@ -9,4 +9,10 @@ class Estado extends Model
 {
     use HasFactory;
     protected $fillable = ['estado', 'uf'];
+
+    public function rules() {
+        return [
+            'estado' => 'required|unique:estados,estado,'.$this->id.'|min:3|max:200',
+        ];
+    }
 }

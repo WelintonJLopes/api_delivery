@@ -9,11 +9,21 @@ class Cupom extends Model
 {
     use HasFactory;
     protected $table = 'cupons';
-    protected $fillable = ['cupom', 'imagem', 'descricao', 'valor', 'data_expiracao'];
+    protected $fillable = ['cupom', 'imagem', 'descricao', 'valor', 'data_expiracao', 'status'];
 
     public function rules() {
         return [
             'cupom' => 'required|min:3|max:200',
         ];
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\User', 'usuarios_cupons')->withPivot('utilizado');
+    }
+
+    public function empresas()
+    {
+        return $this->belongsToMany('App\Models\Empresa', 'empresas_cupons')->withPivot('quantidade');
     }
 }
