@@ -12,6 +12,7 @@ class CidadeController extends Controller
     public function __construct(Cidade $cidade)
     {
         $this->cidade = $cidade;
+        
     }
 
     /**
