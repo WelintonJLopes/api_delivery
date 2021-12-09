@@ -9,25 +9,26 @@ php artisan migrate
 `````
 
 ## Endpoint de Autenticação
+Retorna token de autenticação
 `````
 POST => 127.0.0.1:8000/api/login
 `````
-Retorna token de autenticação
 
+Retorna registro do usuário autenticado com base do token encaminhado
 `````
 POST => 127.0.0.1:8000/api/me
 `````
-Retorna registro do usuário autenticado com base do token encaminhado
 
+Renova um token expirado, que ainda esteja válido
 `````
 POST => 127.0.0.1:8000/api/refresh
 `````
-Renova um token expirado, que ainda esteja válido
 
+Deleta o token de autenticação
 `````
 POST => 127.0.0.1:8000/api/logout
 `````
-Deleta o token de autenticação
+
 
 
 
