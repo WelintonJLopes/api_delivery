@@ -73,9 +73,20 @@ class UserController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->user->rules());        
+        $request->validate($this->user->rules());
+        // Cryptografia da Senha
+        $passCrypt = bcrypt($request->password);        
         // Salva a request na tabela e retorna o registro inserido
-        $user = $this->user->create($request->all());
+        $user = $this->user->create([
+            'name' => $request->name,
+            'cpf' => $request->cpf,
+            'cnpj' => $request->cnpj,
+            'email' => $request->email,
+            'imagem' => $request->imagem,
+            'telefone' => $request->telefone,
+            'password' => $passCrypt,
+            'status' => $request->status
+        ]);
         // Retorna em formato JSON o registro inserido
         return response()->json($user, 201);
     }
@@ -129,8 +140,16 @@ class UserController extends Controller
 
         // Preencher a instancia do medelo de user com a request encaminhada
         $user->fill($request->all());
+
+        if ($request->password) {
+            // Cryptografia da Senha
+            $passCrypt = bcrypt($request->password);
+            $user->password = $passCrypt;
+        }
+        
         // Atualiza o updated_at
         $user->updated_at = date('Y-m-d H:i:s');
+        
         // Salva a instancia do modelo atualizada pela request no banco
         $user->save();
 
