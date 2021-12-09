@@ -1,3 +1,36 @@
+## Iniciar servidor desenvolvimento
+`````
+php artisan serve
+`````
+
+## Criação de tabelas do banco
+`````
+php artisan migrate
+`````
+
+## Endpoint de Autenticação
+`````
+POST => 127.0.0.1:8000/api/login
+`````
+Retorna token de autenticação
+
+`````
+POST => 127.0.0.1:8000/api/me
+`````
+Retorna registro do usuário autenticado com base do token encaminhado
+
+`````
+POST => 127.0.0.1:8000/api/refresh
+`````
+Renova um token expirado, que ainda esteja válido
+
+`````
+POST => 127.0.0.1:8000/api/logout
+`````
+Deleta o token de autenticação
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
