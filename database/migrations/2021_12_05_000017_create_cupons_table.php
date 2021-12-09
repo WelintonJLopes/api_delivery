@@ -15,13 +15,16 @@ class CreateCuponsTable extends Migration
     {
         Schema::create('cupons', function (Blueprint $table) {
             $table->id();
-            $table->string('cupom', 200);
+            $table->string('cupom', 190);
             $table->text('imagem');
             $table->text('descricao');
             $table->decimal('valor', $precision = 8, $scale = 2);
             $table->dateTime('data_expiracao', $precision = 0);
             $table->boolean('status');
             $table->timestamps();
+            $table->unsignedBigInteger('user_id');
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -32,6 +35,10 @@ class CreateCuponsTable extends Migration
      */
     public function down()
     {
+        Schema::table('cupons', function(Blueprint $table){
+            $table->dropForeign('cupons_user_id_foreign');
+        });
+
         Schema::dropIfExists('cupons');
     }
 }

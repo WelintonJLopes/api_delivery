@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Produto extends Model
+class Grupo extends Model
 {
     use HasFactory;
-    protected $fillable = ['produto', 'imagem', 'descricao', 'valor'];
+    protected $fillable = ['grupo'];
+
     public function rules() {
         return [
-            'produto' => 'required|min:3|max:200',
+            'grupo' => 'required|unique:grupos,grupo,'.$this->id.'|min:3|max:100',
         ];
     }
 }

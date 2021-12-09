@@ -19,6 +19,11 @@ class User extends Authenticatable implements JWTSubject
      * @var string[]
      */
     protected $fillable = ['name', 'email', 'password', 'cpf', 'cnpj', 'telefone', 'status'];
+    public function rules() {
+        return [
+            'name' => 'required|min:3|max:200',
+        ];
+    }
 
     /**
      * The attributes that should be hidden for serialization.

@@ -16,7 +16,9 @@ class CreatePedidosProdutosTable extends Migration
         Schema::create('pedidos_produtos', function (Blueprint $table) {
             $table->id();
             $table->decimal('valor', $precision = 8, $scale = 2);
+            $table->decimal('desconto', $precision = 8, $scale = 2);
             $table->integer('quantidade');
+            $table->string('observacao', 190);
             $table->timestamps();
             $table->unsignedBigInteger('pedido_id');
             $table->unsignedBigInteger('produto_id');

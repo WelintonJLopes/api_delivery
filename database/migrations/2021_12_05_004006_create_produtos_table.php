@@ -15,12 +15,18 @@ class CreateProdutosTable extends Migration
     {
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
-            $table->string('produto', 200);
+            $table->string('produto', 190);
             $table->text('imagem');
             $table->text('descricao');
             $table->decimal('valor', $precision = 8, $scale = 2);
+            $table->decimal('desconto', $precision = 8, $scale = 2);
             $table->boolean('status');
             $table->timestamps();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('empresa_id');
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('empresa_id')->references('id')->on('empresas');
         });
     }
 
@@ -31,6 +37,11 @@ class CreateProdutosTable extends Migration
      */
     public function down()
     {
+        Schema::table('produtos', function(Blueprint $table){
+            $table->dropForeign('produtos_user_id_foreign');
+            $table->dropForeign('produtos_empresa_id_foreign');
+        });
+
         Schema::dropIfExists('produtos');
     }
 }

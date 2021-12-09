@@ -9,4 +9,9 @@ class Pedido extends Model
 {
     use HasFactory;
     protected $fillable = ['status', 'data_entrega', 'data_pagamento', 'data_cancelamento', 'user_id', 'empresa_id', 'cupom_id'];
+    public function rules() {
+        return [
+            'status' => 'required|min:3|max:200',
+        ];
+    }
 }
