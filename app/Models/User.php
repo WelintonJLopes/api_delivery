@@ -18,10 +18,11 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var string[]
      */
-    protected $fillable = ['name', 'email', 'password', 'cpf', 'cnpj', 'telefone', 'status'];
+    protected $fillable = ['name', 'email', 'password', 'cpf', 'cnpj', 'telefone', 'status', 'cidade_id', 'estado_id', 'grupo_id'];
+    
     public function rules() {
         return [
-            'name' => 'required|min:3|max:200',
+            'name' => 'required|min:3|max:190',
         ];
     }
 

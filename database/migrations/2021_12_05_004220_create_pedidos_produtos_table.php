@@ -18,7 +18,7 @@ class CreatePedidosProdutosTable extends Migration
             $table->decimal('valor', $precision = 8, $scale = 2);
             $table->decimal('desconto', $precision = 8, $scale = 2);
             $table->integer('quantidade');
-            $table->string('observacao', 190);
+            $table->string('observacao', 190)->nullable();
             $table->timestamps();
             $table->unsignedBigInteger('pedido_id');
             $table->unsignedBigInteger('produto_id');

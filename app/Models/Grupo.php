@@ -9,10 +9,10 @@ class Grupo extends Model
 {
     use HasFactory;
     protected $fillable = ['grupo'];
-
+    
     public function rules() {
         return [
-            'grupo' => 'required|unique:grupos,grupo,'.$this->id.'|min:3|max:100',
+            'grupo' => 'required|unique:grupos,grupo,'.$this->id.'|min:3|max:190',
         ];
     }
 }

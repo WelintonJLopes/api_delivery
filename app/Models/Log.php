@@ -9,9 +9,10 @@ class Log extends Model
 {
     use HasFactory;
     protected $fillable = ['log', 'user_id'];
+
     public function rules() {
         return [
-            'log' => 'required|min:3|max:200',
+            'log' => 'required',
         ];
     }
 }

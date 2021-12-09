@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Empresa extends Model
 {
     use HasFactory;
-    protected $fillable = ['empresa', 'imagem', 'descricao', 'endereco', 'contato', 'user_id', 'cidade_id', 'estado_id', 'status'];
+    protected $fillable = ['empresa', 'imagem', 'descricao', 'endereco', 'contato', 'status', 'user_id', 'cidade_id', 'estado_id'];
 
     public function rules() {
         return [
-            'empresa' => 'required|unique:empresas,empresa,'.$this->id.'|min:3|max:200',
+            'empresa' => 'required|unique:empresas,empresa,'.$this->id.'|min:3|max:190',
         ];
     }
 }

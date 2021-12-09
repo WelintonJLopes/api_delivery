@@ -9,11 +9,11 @@ class Cupom extends Model
 {
     use HasFactory;
     protected $table = 'cupons';
-    protected $fillable = ['cupom', 'imagem', 'descricao', 'valor', 'data_expiracao', 'status'];
+    protected $fillable = ['cupom', 'imagem', 'descricao', 'valor', 'data_expiracao', 'status', 'user_id'];
 
     public function rules() {
         return [
-            'cupom' => 'required|min:3|max:200',
+            'cupom' => 'required|min:3|max:190',
         ];
     }
 
