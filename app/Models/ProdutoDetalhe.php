@@ -9,11 +9,16 @@ class ProdutoDetalhe extends Model
 {
     use HasFactory;
     protected $table = 'produtos_detalhes';
-    protected $fillable = ['produto_id'];
+    protected $fillable = ['tamanho', 'pessoas', 'valor', 'desconto', 'principal', 'produto_id'];
 
     public function rules() {
         return [
-            'produto_id' => 'required',
+            'tamanho' => 'min:3|max:50',
+            'pessoas' => 'integer',
+            'valor' => 'required|numeric',
+            'desconto' => 'required|numeric',
+            'principal' => 'required|boolean',
+            'produto_id' => 'required|exists:produtos,id',
         ];
     }
 }

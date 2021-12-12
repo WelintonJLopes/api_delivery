@@ -9,11 +9,13 @@ class RecebimentoCartao extends Model
 {
     use HasFactory;
     protected $table = 'recebimentos_cartoes';
-    protected $fillable = ['recebimento_id'];
+    protected $fillable = ['administradora', 'bandeira', 'recebimento_id'];
 
     public function rules() {
         return [
-            'recebimento_id' => 'required',
+            'administradora' => 'required',
+            'bandeira' => 'required',
+            'recebimento_id' => 'required|exists:recebimentos,id',
         ];
     }
 }

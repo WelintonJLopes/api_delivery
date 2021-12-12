@@ -9,11 +9,14 @@ class EmpresaHorario extends Model
 {
     use HasFactory;
     protected $table = 'empresas_horarios';
-    protected $fillable = ['empresa_id'];
+    protected $fillable = ['dia', 'abertura', 'fechamento', 'intervalo', 'volta_intervalo', 'empresa_id'];
 
     public function rules() {
         return [
-            'empresa_id' => 'required',
+            'dia' => 'required',
+            'abertura' => 'required',
+            'fechamento' => 'required',
+            'empresa_id' => 'required|exists:empresas,id',
         ];
     }
 }

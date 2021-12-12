@@ -13,7 +13,7 @@ class Recebimento extends Model
 
     public function rules() {
         return [
-            'recebimento' => 'required',
+            'recebimento' => 'required|unique:recebimentos,recebimento,'.$this->id.'|min:3|max:100',
         ];
     }
 }

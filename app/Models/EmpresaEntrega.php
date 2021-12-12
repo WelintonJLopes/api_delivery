@@ -9,11 +9,13 @@ class EmpresaEntrega extends Model
 {
     use HasFactory;
     protected $table = 'empresas_entregas';
-    protected $fillable = ['empresa_id'];
+    protected $fillable = ['taxa_entrega', 'empresa_id', 'cidade_id'];
 
     public function rules() {
         return [
-            'empresa_id' => 'required',
+            'taxa_entrega' => 'required|numeric',
+            'empresa_id' => 'required|exists:empresas,id',
+            'cidade_id' => 'required|exists:cidades,id',
         ];
     }
 }

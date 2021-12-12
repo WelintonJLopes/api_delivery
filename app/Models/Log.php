@@ -13,6 +13,7 @@ class Log extends Model
     public function rules() {
         return [
             'log' => 'required',
+            'user_id' => 'required|exists:users,id'
         ];
     }
 }

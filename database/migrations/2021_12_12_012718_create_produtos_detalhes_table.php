@@ -15,8 +15,8 @@ class CreateProdutosDetalhesTable extends Migration
     {
         Schema::create('produtos_detalhes', function (Blueprint $table) {
             $table->id();
-            $table->string('tamanho', 50);
-            $table->integer('pessoas');
+            $table->string('tamanho', 50)->nullable();
+            $table->integer('pessoas')->nullable();
             $table->decimal('valor', $precision = 8, $scale = 2);
             $table->decimal('desconto', $precision = 8, $scale = 2);
             $table->boolean('principal');

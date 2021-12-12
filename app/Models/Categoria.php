@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Categoria extends Model
 {
     use HasFactory;
-    protected $fillable = ['categorias'];
+    protected $fillable = ['categoria'];
 
     public function rules() {
         return [
-            'categorias' => 'required|unique:categorias,categoria,'.$this->id.'|min:3|max:190',
+            'categoria' => 'required|unique:categorias,categoria,'.$this->id.'|min:3|max:190',
         ];
     }
 }

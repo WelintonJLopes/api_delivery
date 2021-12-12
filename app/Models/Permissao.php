@@ -13,6 +13,8 @@ class Permissao extends Model
     public function rules() {
         return [
             'permissao' => 'required|unique:permissoes,permissao,'.$this->id.'|min:3|max:190',
+            'descricao' => 'required',
+            'grupo_id' => 'required|exists:grupos,id'
         ];
     }
 }

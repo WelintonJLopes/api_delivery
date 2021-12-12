@@ -14,6 +14,12 @@ class Cupom extends Model
     public function rules() {
         return [
             'cupom' => 'required|min:3|max:190',
+            'imagem' => 'file|mimes:png,jpeg,jpg',
+            'descricao' => 'required',
+            'valor' => 'required|numeric',
+            'data_expiracao' => 'required|date',
+            'status' => 'required|boolean',
+            'user_id' => 'required|exists:users,id'
         ];
     }
 

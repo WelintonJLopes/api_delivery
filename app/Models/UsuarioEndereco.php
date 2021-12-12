@@ -9,11 +9,20 @@ class UsuarioEndereco extends Model
 {
     use HasFactory;
     protected $table = 'usuarios_enderecos';
-    protected $fillable = ['user_id'];
+    protected $fillable = ['apelido', 'rua', 'numero', 'bairro', 'complemento', 'cep', 'principal', 'user_id', 'cidade_id', 'estado_id'];
 
     public function rules() {
         return [
-            'user_id' => 'required',
+            'apelido' => 'required',
+            'rua' => 'required',
+            'numero' => 'required|integer',
+            'bairro' => 'required',
+            'complemento' => 'required',
+            'cep' => 'required|integer',
+            'principal' => 'required|boolean',
+            'user_id' => 'required|exists:users,id',
+            'cidade_id' => 'required|exists:cidades,id',
+            'estado_id' => 'required|exists:estados,id',
         ];
     }
 }

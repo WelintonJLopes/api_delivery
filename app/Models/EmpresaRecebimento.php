@@ -13,7 +13,8 @@ class EmpresaRecebimento extends Model
 
     public function rules() {
         return [
-            'empresa_id' => 'required',
+            'empresa_id' => 'required|exists:empresas,id',
+            'recebimento_id' => 'required|exists:recebimentos,id',
         ];
     }
 }

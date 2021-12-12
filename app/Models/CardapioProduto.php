@@ -9,11 +9,13 @@ class CardapioProduto extends Model
 {
     use HasFactory;
     protected $table = 'cardapios_produtos';
-    protected $fillable = ['cardapio_id', 'produto_id'];
+    protected $fillable = ['destaque', 'cardapio_id', 'produto_id'];
 
     public function rules() {
         return [
-            'cardapio_id' => 'required',
+            'destaque' => 'required',
+            'cardapio_id' => 'required|exists:cardapios,id',
+            'produto_id' => 'required|exists:produtos,id',
         ];
     }
 }

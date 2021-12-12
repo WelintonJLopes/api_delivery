@@ -9,11 +9,13 @@ class UsuarioCupom extends Model
 {
     use HasFactory;
     protected $table = 'usuarios_cupons';
-    protected $fillable = ['user_id', 'cupom_id', 'utilizado'];
+    protected $fillable = ['utilizado', 'user_id', 'cupom_id'];
 
     public function rules() {
         return [
-            'user_id' => 'required',
+            'utilizado' => 'required|boolean',
+            'user_id' => 'required|exists:users,id',
+            'cupom_id' => 'required|exists:cupons,id',
         ];
     }
 }

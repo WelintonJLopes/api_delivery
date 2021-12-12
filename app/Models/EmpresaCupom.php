@@ -9,5 +9,13 @@ class EmpresaCupom extends Model
 {
     use HasFactory;
     protected $table = 'empresas_cupons';
-    protected $fillable = ['empresa_id', 'cupom_id', 'quantidade'];
+    protected $fillable = ['quantidade', 'empresa_id', 'cupom_id'];
+
+    public function rules() {
+        return [
+            'quantidade' => 'required|integer',
+            'empresa_id' => 'required|exists:empresas,id',
+            'cupom_id' => 'required|exists:cupons,id'
+        ];
+    }
 }
