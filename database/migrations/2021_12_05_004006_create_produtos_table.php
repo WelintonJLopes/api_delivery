@@ -16,17 +16,17 @@ class CreateProdutosTable extends Migration
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
             $table->string('produto', 190);
-            $table->text('imagem');
             $table->text('descricao');
-            $table->decimal('valor', $precision = 8, $scale = 2);
-            $table->decimal('desconto', $precision = 8, $scale = 2);
+            $table->text('imagem');
             $table->boolean('status');
             $table->timestamps();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('empresa_id');
+            $table->unsignedBigInteger('categoria_id');
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('empresa_id')->references('id')->on('empresas');
+            $table->foreign('categoria_id')->references('id')->on('categoria');
         });
     }
 
@@ -40,6 +40,7 @@ class CreateProdutosTable extends Migration
         Schema::table('produtos', function(Blueprint $table){
             $table->dropForeign('produtos_user_id_foreign');
             $table->dropForeign('produtos_empresa_id_foreign');
+            $table->dropForeign('produtos_categoria_id_foreign');
         });
 
         Schema::dropIfExists('produtos');

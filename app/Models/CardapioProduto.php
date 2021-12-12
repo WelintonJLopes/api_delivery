@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UsuarioCupom extends Model
+class CardapioProduto extends Model
 {
     use HasFactory;
-    protected $table = 'usuarios_cupons';
-    protected $fillable = ['user_id', 'cupom_id', 'utilizado'];
+    protected $table = 'cardapios_produtos';
+    protected $fillable = ['cardapio_id', 'produto_id'];
 
     public function rules() {
         return [
-            'user_id' => 'required',
+            'cardapio_id' => 'required',
         ];
     }
 }

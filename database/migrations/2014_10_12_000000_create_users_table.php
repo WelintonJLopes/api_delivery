@@ -16,16 +16,20 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->string('cpf', 15)->unique();
-            $table->string('cnpj', 15)->unique()->nullable();
-            $table->string('email', 190)->nullable();
-            $table->text('imagem')->nullable();
+            $table->string('email', 190)->unique();
             $table->string('telefone', 12)->unique()->nullable();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->text('icone')->nullable();
+            $table->date('data_nascimento')->nullable();
+            $table->string('sexo', 2)->nullable();
+            $table->string('cpf', 15)->unique()->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->boolean('status');
             $table->rememberToken();
             $table->timestamps();
+            $table->unsignedBigInteger('grupo_id');
+
+            $table->foreign('grupo_id')->references('id')->on('grupos');
         });
     }
 
@@ -36,6 +40,10 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::table('users', function(Blueprint $table){
+            $table->dropForeign('users_grupo_id_foreign');
+        });
+
         Schema::dropIfExists('users');
     }
 }
