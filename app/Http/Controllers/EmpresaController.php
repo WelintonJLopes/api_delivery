@@ -153,6 +153,6 @@ class EmpresaController extends Controller
         // Deleta o registro selecionado
         $empresa->delete();
 
-        return response()->json(['msg' => 'O empresa foi removido com sucesso!'], 200);
+        return response()->json(['msg' => 'O registro foi removido com sucesso!'], 200);
     }
 }

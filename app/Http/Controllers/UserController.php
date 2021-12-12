@@ -172,6 +172,6 @@ class UserController extends Controller
         // Deleta o registro selecionado
         $user->delete();
 
-        return response()->json(['msg' => 'O user foi removido com sucesso!'], 200);
+        return response()->json(['msg' => 'O registro foi removido com sucesso!'], 200);
     }
 }

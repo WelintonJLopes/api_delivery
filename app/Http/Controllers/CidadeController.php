@@ -153,6 +153,6 @@ class CidadeController extends Controller
         // Deleta o registro selecionado
         $cidade->delete();
 
-        return response()->json(['msg' => 'O cidade foi removido com sucesso!'], 200);
+        return response()->json(['msg' => 'O registro foi removido com sucesso!'], 200);
     }
 }

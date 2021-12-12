@@ -153,6 +153,6 @@ class EstadoController extends Controller
         // Deleta o registro selecionado
         $estado->delete();
 
-        return response()->json(['msg' => 'O estado foi removido com sucesso!'], 200);
+        return response()->json(['msg' => 'O registro foi removido com sucesso!'], 200);
     }
 }

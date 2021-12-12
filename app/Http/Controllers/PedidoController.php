@@ -153,6 +153,6 @@ class PedidoController extends Controller
         // Deleta o registro selecionado
         $pedido->delete();
 
-        return response()->json(['msg' => 'O pedido foi removido com sucesso!'], 200);
+        return response()->json(['msg' => 'O registro foi removido com sucesso!'], 200);
     }
 }

@@ -180,6 +180,6 @@ class CupomController extends Controller
         // Deleta o registro selecionado
         $cupom->delete();
 
-        return response()->json(['msg' => 'O cupom foi removido com sucesso!'], 200);
+        return response()->json(['msg' => 'O registro foi removido com sucesso!'], 200);
     }
 }

@@ -153,6 +153,6 @@ class ProdutoController extends Controller
         // Deleta o registro selecionado
         $produto->delete();
 
-        return response()->json(['msg' => 'O produto foi removido com sucesso!'], 200);
+        return response()->json(['msg' => 'O registro foi removido com sucesso!'], 200);
     }
 }
