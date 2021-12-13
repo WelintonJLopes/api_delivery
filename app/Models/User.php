@@ -28,10 +28,20 @@ class User extends Authenticatable implements JWTSubject
             'password' => 'required|min:4|max:255',
             'data_nascimento' => 'date',
             'sexo' => 'min:1|max:1',
-            'cpf' => 'required||unique:users,cpf,'.$this->id,
+            'cpf' => 'unique:users,cpf,'.$this->id,
             'status' => 'required|boolean',
             'grupo_id' => 'required|exists:grupos,id'
         ];
+    }
+
+    public function grupo()
+    {
+        return $this->belongsTo('App\Models\Grupo');
+    }
+
+    public function usuarios_enderecos()
+    {
+        return $this->hasMany('App\Models\UsuarioEndereco');
     }
 
     /**

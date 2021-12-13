@@ -25,4 +25,14 @@ class UsuarioEndereco extends Model
             'estado_id' => 'required|exists:estados,id',
         ];
     }
+
+    public function cidade()
+    {
+        return $this->belongsTo('App\Models\Cidade');
+    }
+
+    public function estado()
+    {
+        return $this->belongsTo('App\Models\Estado');
+    }
 }

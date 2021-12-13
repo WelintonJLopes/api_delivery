@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GrupoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,9 @@ Route::middleware('jwt.auth')->group(function () {
 Route::post('me', 'AuthController@me');
 Route::post('logout', 'AuthController@logout');
 
-/* Route::apiResource('user', 'UserController'); */
+Route::apiResource('user', 'UserController');
+Route::apiResource('usuario-endereco', 'UsuarioEnderecoController');
+Route::apiResource('grupo', 'GrupoController');
 Route::apiResource('empresa', 'EmpresaController');
 Route::apiResource('cupom', 'CupomController');
 Route::apiResource('pedido', 'PedidoController');

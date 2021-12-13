@@ -79,13 +79,11 @@ class UserController extends Controller
         // Salva a request na tabela e retorna o registro inserido
         $user = $this->user->create([
             'name' => $request->name,
-            'cpf' => $request->cpf,
-            'cnpj' => $request->cnpj,
             'email' => $request->email,
-            'imagem' => $request->imagem,
             'telefone' => $request->telefone,
             'password' => $passCrypt,
-            'status' => $request->status
+            'status' => $request->status,
+            'grupo_id' => $request->grupo_id
         ]);
         // Retorna em formato JSON o registro inserido
         return response()->json($user, 201);
@@ -100,7 +98,7 @@ class UserController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $user = $this->user->find($id);
+        $user = $this->user->with('grupo.permissoes')->with(['usuarios_enderecos.cidade', 'usuarios_enderecos.estado'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($user === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);

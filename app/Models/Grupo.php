@@ -15,4 +15,9 @@ class Grupo extends Model
             'grupo' => 'required|unique:grupos,grupo,'.$this->id.'|min:3|max:190',
         ];
     }
+
+    public function permissoes()
+    {
+        return $this->hasMany('App\Models\Permissao');
+    }
 }
