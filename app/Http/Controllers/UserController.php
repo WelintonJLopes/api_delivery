@@ -23,6 +23,9 @@ class UserController extends Controller
     {
         // Instancia um objeto do tipo Repository passando o modelo user
         $userRepository = new UserRepository($this->user);
+        
+        // Recupera registro da tabela de relacionamentos
+        $userRepository->selectAtributosRegistrosRelacionados(['grupo.permissoes', 'usuarios_enderecos.cidade', 'usuarios_enderecos.estado']);
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
@@ -85,6 +88,10 @@ class UserController extends Controller
             'status' => $request->status,
             'grupo_id' => $request->grupo_id
         ]);
+
+        // Recupera modelo com relacionamentos
+        $user = $this->user->with(['grupo.permissoes', 'usuarios_enderecos.cidade', 'usuarios_enderecos.estado'])->find($user->id);
+
         // Retorna em formato JSON o registro inserido
         return response()->json($user, 201);
     }
@@ -98,7 +105,7 @@ class UserController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $user = $this->user->with('grupo.permissoes')->with(['usuarios_enderecos.cidade', 'usuarios_enderecos.estado'])->find($id);
+        $user = $this->user->with(['grupo.permissoes', 'usuarios_enderecos.cidade', 'usuarios_enderecos.estado'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($user === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -150,6 +157,9 @@ class UserController extends Controller
         
         // Salva a instancia do modelo atualizada pela request no banco
         $user->save();
+
+        // Recupera modelo com relacionamentos
+        $user = $this->user->with(['grupo.permissoes', 'usuarios_enderecos.cidade', 'usuarios_enderecos.estado'])->find($user->id);
 
         return response()->json($user, 200);
     }

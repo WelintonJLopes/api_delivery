@@ -30,6 +30,7 @@ Route::apiResource('user', 'UserController');
 Route::apiResource('usuario-endereco', 'UsuarioEnderecoController');
 Route::apiResource('grupo', 'GrupoController');
 Route::apiResource('empresa', 'EmpresaController');
+Route::apiResource('especialidade', 'EspecialidadeController');
 Route::apiResource('cupom', 'CupomController');
 Route::apiResource('pedido', 'PedidoController');
 Route::apiResource('produto', 'ProdutoController');

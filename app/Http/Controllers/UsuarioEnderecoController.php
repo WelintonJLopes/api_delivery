@@ -24,6 +24,9 @@ class UsuarioEnderecoController extends Controller
         // Instancia um objeto do tipo Repository passando o modelo usuarioEndereco
         $usuarioEnderecoRepository = new UsuarioEnderecoRepository($this->usuarioEndereco);
 
+        // Recupera registro da tabela de relacionamentos
+        $usuarioEnderecoRepository->selectAtributosRegistrosRelacionados(['cidade', 'estado']);
+
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
             $usuarioEnderecoRepository->filtro($request->filtro);         
@@ -76,6 +79,8 @@ class UsuarioEnderecoController extends Controller
         $request->validate($this->usuarioEndereco->rules());        
         // Salva a request na tabela e retorna o registro inserido
         $usuarioEndereco = $this->usuarioEndereco->create($request->all());
+        // Recupera modelo com relacionamentos
+        $usuarioEndereco = $this->usuarioEndereco->with(['cidade', 'estado'])->find($usuarioEndereco->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($usuarioEndereco, 201);
     }
@@ -89,7 +94,7 @@ class UsuarioEnderecoController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $usuarioEndereco = $this->usuarioEndereco->find($id);
+        $usuarioEndereco = $this->usuarioEndereco->with(['cidade', 'estado'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($usuarioEndereco === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -133,6 +138,8 @@ class UsuarioEnderecoController extends Controller
         $usuarioEndereco->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
         $usuarioEndereco->save();
+        // Recupera modelo com relacionamentos
+        $usuarioEndereco = $this->usuarioEndereco->with(['cidade', 'estado'])->find($usuarioEndereco->id);
 
         return response()->json($usuarioEndereco, 200);
     }

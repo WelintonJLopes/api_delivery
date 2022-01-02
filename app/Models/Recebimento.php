@@ -16,4 +16,9 @@ class Recebimento extends Model
             'recebimento' => 'required|unique:recebimentos,recebimento,'.$this->id.'|min:3|max:100',
         ];
     }
+
+    public function recebimentos_cartoes()
+    {
+        return $this->hasMany('App\Models\RecebimentoCartao');
+    }
 }

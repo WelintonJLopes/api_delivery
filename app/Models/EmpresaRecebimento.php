@@ -17,4 +17,9 @@ class EmpresaRecebimento extends Model
             'recebimento_id' => 'required|exists:recebimentos,id',
         ];
     }
+
+    public function recebimento()
+    {
+        return $this->belongsTo('App\Models\Recebimento');
+    }
 }

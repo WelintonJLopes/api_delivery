@@ -14,7 +14,7 @@ class Empresa extends Model
         return [
             'empresa' => 'required|unique:empresas,empresa,'.$this->id.'|min:3|max:190',
             'cnpj' => 'integer|unique:empresas,cnpj,'.$this->id.'|min:10|max:15',
-            'imagem' => 'file|mimes:png,jpeg,jpg',
+            /* 'imagem' => 'file|mimes:png,jpeg,jpg', */
             'sobre' => 'required',
             'telefone' => 'required|integer',
             'email' => 'email|unique:empresas,email,'.$this->id,
@@ -33,5 +33,30 @@ class Empresa extends Model
             'estado_id' => 'required|exists:estados,id',
             'especialidade_id' => 'required|exists:especialidades,id',
         ];
+    }
+
+    public function cidade()
+    {
+        return $this->belongsTo('App\Models\Cidade');
+    }
+
+    public function estado()
+    {
+        return $this->belongsTo('App\Models\Estado');
+    }
+
+    public function empresas_entregas()
+    {
+        return $this->hasMany('App\Models\EmpresaEntrega');
+    }
+
+    public function empresas_horarios()
+    {
+        return $this->hasMany('App\Models\EmpresaHorario');
+    }
+
+    public function empresas_recebimentos()
+    {
+        return $this->hasMany('App\Models\EmpresaRecebimento');
     }
 }
