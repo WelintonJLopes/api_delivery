@@ -9,7 +9,7 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $token = auth('api')->attempt(request(['cpf', 'password']));
+        $token = auth('api')->attempt(request(['email', 'password']));
         
         if ($token) {
             return $this->respondWithToken($token);
