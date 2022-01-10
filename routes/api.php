@@ -20,22 +20,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('jwt.auth')->group(function () {
+    /*     -- Rotas protegidas --  */
+    Route::post('me', 'AuthController@me');
+    Route::post('logout', 'AuthController@logout');
 
+    Route::apiResource('user', 'UserController');
+    Route::apiResource('usuario-endereco', 'UsuarioEnderecoController');
+    Route::apiResource('grupo', 'GrupoController');
+    Route::apiResource('empresa', 'EmpresaController');
+    Route::apiResource('especialidade', 'EspecialidadeController');
+    Route::apiResource('cupom', 'CupomController');
+    Route::apiResource('pedido', 'PedidoController');
+    Route::apiResource('produto', 'ProdutoController');
+    Route::apiResource('cidade', 'CidadeController');
+    Route::apiResource('estado', 'EstadoController');
 });
-/*     -- Rotas protegidas --  */
-Route::post('me', 'AuthController@me');
-Route::post('logout', 'AuthController@logout');
-
-Route::apiResource('user', 'UserController');
-Route::apiResource('usuario-endereco', 'UsuarioEnderecoController');
-Route::apiResource('grupo', 'GrupoController');
-Route::apiResource('empresa', 'EmpresaController');
-Route::apiResource('especialidade', 'EspecialidadeController');
-Route::apiResource('cupom', 'CupomController');
-Route::apiResource('pedido', 'PedidoController');
-Route::apiResource('produto', 'ProdutoController');
-Route::apiResource('cidade', 'CidadeController');
-Route::apiResource('estado', 'EstadoController');
 
 /* -- Rotas não protegidas --  */
 Route::post('login', 'AuthController@login');
