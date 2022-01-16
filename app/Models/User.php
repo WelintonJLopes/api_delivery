@@ -22,7 +22,7 @@ class User extends Authenticatable implements JWTSubject
     
     public function rules() {
         return [
-            'name' => 'required|min:3|max:190',
+            'name' => 'required|min:3|max:100',
             'email' => 'required|email|min:3|max:190',
             'telefone' => 'required|min:9|max:12',
             'password' => 'required|min:4|max:255',
