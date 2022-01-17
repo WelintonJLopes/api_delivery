@@ -83,6 +83,7 @@ class UserController extends Controller
         $user = $this->user->create([
             'name' => $request->name,
             'email' => $request->email,
+            'data_nascimento' => $request->data_nascimento,
             'telefone' => $request->telefone,
             'password' => $passCrypt,
             'status' => $request->status,
