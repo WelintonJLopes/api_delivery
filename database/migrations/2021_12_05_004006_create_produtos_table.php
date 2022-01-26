@@ -19,6 +19,7 @@ class CreateProdutosTable extends Migration
             $table->text('descricao');
             $table->text('imagem');
             $table->boolean('status');
+            $table->boolean('destaque');
             $table->timestamps();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('empresa_id');
