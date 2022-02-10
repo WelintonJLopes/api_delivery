@@ -87,7 +87,8 @@ class UserController extends Controller
             'telefone' => $request->telefone,
             'password' => $passCrypt,
             'status' => $request->status,
-            'grupo_id' => $request->grupo_id
+            'grupo_id' => $request->grupo_id,
+            'cidade_id' => $request->cidade_id,
         ]);
 
         // Recupera modelo com relacionamentos
