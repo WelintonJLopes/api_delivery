@@ -24,6 +24,9 @@ class EmpresaEntregaController extends Controller
         // Instancia um objeto do tipo Repository passando o modelo empresaEntrega
         $empresaEntregaRepository = new EmpresaEntregaRepository($this->empresaEntrega);
 
+        // Recupera registro da tabela de relacionamentos
+        $empresaEntregaRepository->selectAtributosRegistrosRelacionados(['cidade', 'estado']);
+
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
             $empresaEntregaRepository->filtro($request->filtro);         
@@ -76,6 +79,8 @@ class EmpresaEntregaController extends Controller
         $request->validate($this->empresaEntrega->rules());        
         // Salva a request na tabela e retorna o registro inserido
         $empresaEntrega = $this->empresaEntrega->create($request->all());
+        // Recupera modelo com relacionamentos
+        $empresaEntrega = $this->empresaEntrega->with(['cidade', 'estado'])->find($empresaEntrega->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($empresaEntrega, 201);
     }
@@ -89,7 +94,7 @@ class EmpresaEntregaController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $empresaEntrega = $this->empresaEntrega->find($id);
+        $empresaEntrega = $this->empresaEntrega->with(['cidade', 'estado'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($empresaEntrega === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -133,6 +138,8 @@ class EmpresaEntregaController extends Controller
         $empresaEntrega->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
         $empresaEntrega->save();
+        // Recupera modelo com relacionamentos
+        $empresaEntrega = $this->empresaEntrega->with(['cidade', 'estado'])->find($empresaEntrega->id);
 
         return response()->json($empresaEntrega, 200);
     }

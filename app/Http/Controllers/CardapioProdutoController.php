@@ -24,6 +24,9 @@ class CardapioProdutoController extends Controller
         // Instancia um objeto do tipo Repository passando o modelo cardapioProduto
         $cardapioProdutoRepository = new CardapioProdutoRepository($this->cardapioProduto);
 
+        // Recupera registro da tabela de relacionamentos
+        $cardapioProdutoRepository->selectAtributosRegistrosRelacionados(['produto']);
+
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
             $cardapioProdutoRepository->filtro($request->filtro);         
@@ -76,6 +79,8 @@ class CardapioProdutoController extends Controller
         $request->validate($this->cardapioProduto->rules());        
         // Salva a request na tabela e retorna o registro inserido
         $cardapioProduto = $this->cardapioProduto->create($request->all());
+        // Recupera modelo com relacionamentos
+        $cardapioProduto = $this->cardapioProduto->with(['produto'])->find($cardapioProduto->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($cardapioProduto, 201);
     }
@@ -89,7 +94,7 @@ class CardapioProdutoController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $cardapioProduto = $this->cardapioProduto->find($id);
+        $cardapioProduto = $this->cardapioProduto->with(['produto'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($cardapioProduto === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -133,6 +138,8 @@ class CardapioProdutoController extends Controller
         $cardapioProduto->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
         $cardapioProduto->save();
+        // Recupera modelo com relacionamentos
+        $cardapioProduto = $this->cardapioProduto->with(['produto'])->find($cardapioProduto->id);
 
         return response()->json($cardapioProduto, 200);
     }

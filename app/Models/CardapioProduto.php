@@ -18,4 +18,9 @@ class CardapioProduto extends Model
             'produto_id' => 'required|exists:produtos,id',
         ];
     }
+
+    public function produto()
+    {
+        return $this->belongsTo('App\Models\Produto');
+    }
 }

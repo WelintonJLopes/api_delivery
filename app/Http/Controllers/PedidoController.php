@@ -24,6 +24,9 @@ class PedidoController extends Controller
         // Instancia um objeto do tipo Repository passando o modelo pedido
         $pedidoRepository = new PedidoRepository($this->pedido);
 
+        // Recupera registro da tabela de relacionamentos
+        $pedidoRepository->selectAtributosRegistrosRelacionados(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'pedidos_produtos.pedidos_produtos_opcionais.opcional']);
+
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
             $pedidoRepository->filtro($request->filtro);         
@@ -76,6 +79,8 @@ class PedidoController extends Controller
         $request->validate($this->pedido->rules());        
         // Salva a request na tabela e retorna o registro inserido
         $pedido = $this->pedido->create($request->all());
+        // Recupera modelo com relacionamentos
+        $pedido = $this->pedido->with(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'pedidos_produtos.pedidos_produtos_opcionais.opcional'])->find($pedido->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($pedido, 201);
     }
@@ -89,7 +94,8 @@ class PedidoController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $pedido = $this->pedido->find($id);
+        // Recupera modelo com relacionamentos
+        $pedido = $this->pedido->with(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'pedidos_produtos.pedidos_produtos_opcionais.opcional'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($pedido === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -133,6 +139,8 @@ class PedidoController extends Controller
         $pedido->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
         $pedido->save();
+        // Recupera modelo com relacionamentos
+        $pedido = $this->pedido->with(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'pedidos_produtos.pedidos_produtos_opcionais.opcional'])->find($pedido->id);
 
         return response()->json($pedido, 200);
     }

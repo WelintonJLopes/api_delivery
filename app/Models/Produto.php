@@ -20,4 +20,29 @@ class Produto extends Model
             'categoria_id' => 'required|exists:categorias,id',
         ];
     }
+
+    public function produtos_detalhes()
+    {
+        return $this->hasMany('App\Models\ProdutoDetalhe');
+    }
+
+    public function produtos_opcionais()
+    {
+        return $this->hasMany('App\Models\ProdutoOpcional');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function empresa()
+    {
+        return $this->belongsTo('App\Models\Empresa');
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo('App\Models\Categoria');
+    }
 }

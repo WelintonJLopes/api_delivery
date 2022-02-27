@@ -24,6 +24,9 @@ class EmpresaCupomController extends Controller
         // Instancia um objeto do tipo Repository passando o modelo empresaCupom
         $empresaCupomRepository = new EmpresaCupomRepository($this->empresaCupom);
 
+        // Recupera registro da tabela de relacionamentos
+        $empresaCupomRepository->selectAtributosRegistrosRelacionados(['cupom']);
+
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
             $empresaCupomRepository->filtro($request->filtro);         
@@ -76,6 +79,8 @@ class EmpresaCupomController extends Controller
         $request->validate($this->empresaCupom->rules());        
         // Salva a request na tabela e retorna o registro inserido
         $empresaCupom = $this->empresaCupom->create($request->all());
+        // Recupera modelo com relacionamentos
+        $empresaCupom = $this->empresaCupom->with(['cupom'])->find($empresaCupom->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($empresaCupom, 201);
     }
@@ -89,7 +94,7 @@ class EmpresaCupomController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $empresaCupom = $this->empresaCupom->find($id);
+        $empresaCupom = $this->empresaCupom->with(['cupom'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($empresaCupom === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -133,6 +138,8 @@ class EmpresaCupomController extends Controller
         $empresaCupom->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
         $empresaCupom->save();
+        // Recupera modelo com relacionamentos
+        $empresaCupom = $this->empresaCupom->with(['cupom'])->find($empresaCupom->id);
 
         return response()->json($empresaCupom, 200);
     }

@@ -24,6 +24,9 @@ class EmpresaCategoriaController extends Controller
         // Instancia um objeto do tipo Repository passando o modelo empresaCategoria
         $empresaCategoriaRepository = new EmpresaCategoriaRepository($this->empresaCategoria);
 
+        // Recupera registro da tabela de relacionamentos
+        $empresaCategoriaRepository->selectAtributosRegistrosRelacionados(['categoria']);
+
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
             $empresaCategoriaRepository->filtro($request->filtro);         
@@ -76,6 +79,8 @@ class EmpresaCategoriaController extends Controller
         $request->validate($this->empresaCategoria->rules());        
         // Salva a request na tabela e retorna o registro inserido
         $empresaCategoria = $this->empresaCategoria->create($request->all());
+        // Recupera modelo com relacionamentos
+        $empresaCategoria = $this->empresaCategoria->with(['categoria'])->find($empresaCategoria->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($empresaCategoria, 201);
     }
@@ -89,7 +94,7 @@ class EmpresaCategoriaController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $empresaCategoria = $this->empresaCategoria->find($id);
+        $empresaCategoria = $this->empresaCategoria->with(['categoria'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($empresaCategoria === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -133,6 +138,8 @@ class EmpresaCategoriaController extends Controller
         $empresaCategoria->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
         $empresaCategoria->save();
+        // Recupera modelo com relacionamentos
+        $empresaCategoria = $this->empresaCategoria->with(['categoria'])->find($empresaCategoria->id);
 
         return response()->json($empresaCategoria, 200);
     }

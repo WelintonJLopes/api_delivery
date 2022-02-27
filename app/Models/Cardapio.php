@@ -17,4 +17,9 @@ class Cardapio extends Model
             'empresa_id' => 'required|exists:empresas,id'
         ];
     }
+
+    public function cardapios_produtos()
+    {
+        return $this->hasMany('App\Models\CardapioProduto');
+    }
 }

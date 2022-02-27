@@ -16,4 +16,9 @@ class Log extends Model
             'user_id' => 'required|exists:users,id'
         ];
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

@@ -24,6 +24,9 @@ class ProdutoOpcionalController extends Controller
         // Instancia um objeto do tipo Repository passando o modelo produtoOpcional
         $produtoOpcionalRepository = new ProdutoOpcionalRepository($this->produtoOpcional);
 
+        // Recupera registro da tabela de relacionamentos
+        $produtoOpcionalRepository->selectAtributosRegistrosRelacionados(['opcional']);
+
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
             $produtoOpcionalRepository->filtro($request->filtro);         
@@ -76,6 +79,8 @@ class ProdutoOpcionalController extends Controller
         $request->validate($this->produtoOpcional->rules());        
         // Salva a request na tabela e retorna o registro inserido
         $produtoOpcional = $this->produtoOpcional->create($request->all());
+        // Recupera modelo com relacionamentos
+        $produtoOpcional = $this->produtoOpcional->with(['opcional'])->find($produtoOpcional->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($produtoOpcional, 201);
     }
@@ -89,7 +94,7 @@ class ProdutoOpcionalController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $produtoOpcional = $this->produtoOpcional->find($id);
+        $produtoOpcional = $this->produtoOpcional->with(['opcional'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($produtoOpcional === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -133,6 +138,8 @@ class ProdutoOpcionalController extends Controller
         $produtoOpcional->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
         $produtoOpcional->save();
+        // Recupera modelo com relacionamentos
+        $produtoOpcional = $this->produtoOpcional->with(['opcional'])->find($produtoOpcional->id);
 
         return response()->json($produtoOpcional, 200);
     }

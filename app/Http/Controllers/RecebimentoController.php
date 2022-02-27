@@ -24,6 +24,9 @@ class RecebimentoController extends Controller
         // Instancia um objeto do tipo Repository passando o modelo recebimento
         $recebimentoRepository = new RecebimentoRepository($this->recebimento);
 
+        // Recupera registro da tabela de relacionamentos
+        $recebimentoRepository->selectAtributosRegistrosRelacionados(['recebimentos_cartoes']);
+
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
             $recebimentoRepository->filtro($request->filtro);         
@@ -76,6 +79,8 @@ class RecebimentoController extends Controller
         $request->validate($this->recebimento->rules());        
         // Salva a request na tabela e retorna o registro inserido
         $recebimento = $this->recebimento->create($request->all());
+        // Recupera modelo com relacionamentos
+        $recebimento = $this->recebimento->with(['recebimentos_cartoes'])->find($recebimento->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($recebimento, 201);
     }
@@ -89,7 +94,7 @@ class RecebimentoController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $recebimento = $this->recebimento->find($id);
+        $recebimento = $this->recebimento->with(['recebimentos_cartoes'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($recebimento === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -133,6 +138,8 @@ class RecebimentoController extends Controller
         $recebimento->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
         $recebimento->save();
+        // Recupera modelo com relacionamentos
+        $recebimento = $this->recebimento->with(['recebimentos_cartoes'])->find($recebimento->id);
 
         return response()->json($recebimento, 200);
     }

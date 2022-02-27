@@ -24,6 +24,9 @@ class UsuarioCupomController extends Controller
         // Instancia um objeto do tipo Repository passando o modelo usuarioCupom
         $usuarioCupomRepository = new UsuarioCupomRepository($this->usuarioCupom);
 
+        // Recupera registro da tabela de relacionamentos
+        $usuarioCupomRepository->selectAtributosRegistrosRelacionados(['cupom']);
+
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
             $usuarioCupomRepository->filtro($request->filtro);         
@@ -76,6 +79,8 @@ class UsuarioCupomController extends Controller
         $request->validate($this->usuarioCupom->rules());        
         // Salva a request na tabela e retorna o registro inserido
         $usuarioCupom = $this->usuarioCupom->create($request->all());
+        // Recupera modelo com relacionamentos
+        $usuarioCupom = $this->usuarioCupom->with(['cupom'])->find($usuarioCupom->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($usuarioCupom, 201);
     }
@@ -89,7 +94,7 @@ class UsuarioCupomController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $usuarioCupom = $this->usuarioCupom->find($id);
+        $usuarioCupom = $this->usuarioCupom->with(['cupom'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($usuarioCupom === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -133,6 +138,8 @@ class UsuarioCupomController extends Controller
         $usuarioCupom->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
         $usuarioCupom->save();
+        // Recupera modelo com relacionamentos
+        $usuarioCupom = $this->usuarioCupom->with(['cupom'])->find($usuarioCupom->id);
 
         return response()->json($usuarioCupom, 200);
     }

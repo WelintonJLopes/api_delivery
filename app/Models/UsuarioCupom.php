@@ -18,4 +18,9 @@ class UsuarioCupom extends Model
             'cupom_id' => 'required|exists:cupons,id',
         ];
     }
+
+    public function cupom()
+    {
+        return $this->belongsTo('App\Models\Cupom');
+    }
 }

@@ -24,6 +24,9 @@ class CardapioController extends Controller
         // Instancia um objeto do tipo Repository passando o modelo cardapio
         $cardapioRepository = new CardapioRepository($this->cardapio);
 
+        // Recupera registro da tabela de relacionamentos
+        $cardapioRepository->selectAtributosRegistrosRelacionados(['cardapios_produtos.produto']);
+
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
             $cardapioRepository->filtro($request->filtro);         
@@ -76,6 +79,8 @@ class CardapioController extends Controller
         $request->validate($this->cardapio->rules());        
         // Salva a request na tabela e retorna o registro inserido
         $cardapio = $this->cardapio->create($request->all());
+        // Recupera modelo com relacionamentos
+        $cardapio = $this->cardapio->with(['cardapios_produtos.produto'])->find($cardapio->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($cardapio, 201);
     }
@@ -89,7 +94,7 @@ class CardapioController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $cardapio = $this->cardapio->find($id);
+        $cardapio = $this->cardapio->with(['cardapios_produtos.produto'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($cardapio === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -133,6 +138,8 @@ class CardapioController extends Controller
         $cardapio->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
         $cardapio->save();
+        // Recupera modelo com relacionamentos
+        $cardapio = $this->cardapio->with(['cardapios_produtos.produto'])->find($cardapio->id);
 
         return response()->json($cardapio, 200);
     }

@@ -25,7 +25,7 @@ class EmpresaController extends Controller
         $empresaRepository = new EmpresaRepository($this->empresa);
 
         // Recupera registro da tabela de relacionamentos
-        $empresaRepository->selectAtributosRegistrosRelacionados(['cidade', 'estado', 'empresas_entregas.cidade', 'empresas_entregas.estado', 'empresas_horarios', 'empresas_recebimentos']);
+        $empresaRepository->selectAtributosRegistrosRelacionados(['cidade', 'estado', 'empresas_categorias.categoria', 'empresas_entregas.cidade', 'empresas_entregas.estado', 'empresas_horarios', 'empresas_recebimentos.recebimento']);
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
@@ -80,7 +80,7 @@ class EmpresaController extends Controller
         // Salva a request na tabela e retorna o registro inserido
         $empresa = $this->empresa->create($request->all());
         // Recupera modelo com relacionamentos
-        $empresa = $this->empresa->with(['cidade', 'estado', 'empresas_entregas.cidade', 'empresas_entregas.estado', 'empresas_horarios', 'empresas_recebimentos'])->find($empresa->id);
+        $empresa = $this->empresa->with(['cidade', 'estado', 'empresas_categorias.categoria', 'empresas_entregas.cidade', 'empresas_entregas.estado', 'empresas_horarios', 'empresas_recebimentos.recebimento'])->find($empresa->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($empresa, 201);
     }
@@ -94,8 +94,7 @@ class EmpresaController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $empresa = $this->empresa->with(['cidade', 'estado', 'empresas_entregas.cidade', 'empresas_entregas.estado', 'empresas_horarios', 'empresas_recebimentos'])->find($id);
-        
+        $empresa = $this->empresa->with(['cidade', 'estado', 'empresas_categorias.categoria', 'empresas_entregas.cidade', 'empresas_entregas.estado', 'empresas_horarios', 'empresas_recebimentos.recebimento'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($empresa === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -140,7 +139,7 @@ class EmpresaController extends Controller
         // Salva a instancia do modelo atualizada pela request no banco
         $empresa->save();
         // Recupera modelo com relacionamentos
-        $empresa = $this->empresa->with(['cidade', 'estado', 'empresas_entregas.cidade', 'empresas_entregas.estado', 'empresas_horarios', 'empresas_recebimentos'])->find($empresa->id);
+        $empresa = $this->empresa->with(['cidade', 'estado', 'empresas_categorias.categoria', 'empresas_entregas.cidade', 'empresas_entregas.estado', 'empresas_horarios', 'empresas_recebimentos.recebimento'])->find($empresa->id);
         
         return response()->json($empresa, 200);
     }

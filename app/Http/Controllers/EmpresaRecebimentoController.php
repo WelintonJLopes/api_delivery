@@ -24,6 +24,9 @@ class EmpresaRecebimentoController extends Controller
         // Instancia um objeto do tipo Repository passando o modelo empresaRecebimento
         $empresaRecebimentoRepository = new EmpresaRecebimentoRepository($this->empresaRecebimento);
 
+        // Recupera registro da tabela de relacionamentos
+        $empresaRecebimentoRepository->selectAtributosRegistrosRelacionados(['recebimento.recebimentos_cartoes']);
+
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
             $empresaRecebimentoRepository->filtro($request->filtro);         
@@ -76,6 +79,8 @@ class EmpresaRecebimentoController extends Controller
         $request->validate($this->empresaRecebimento->rules());        
         // Salva a request na tabela e retorna o registro inserido
         $empresaRecebimento = $this->empresaRecebimento->create($request->all());
+        // Recupera modelo com relacionamentos
+        $empresaRecebimento = $this->empresaRecebimento->with(['recebimento.recebimentos_cartoes'])->find($empresaRecebimento->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($empresaRecebimento, 201);
     }
@@ -89,7 +94,7 @@ class EmpresaRecebimentoController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $empresaRecebimento = $this->empresaRecebimento->find($id);
+        $empresaRecebimento = $this->empresaRecebimento->with(['recebimento.recebimentos_cartoes'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($empresaRecebimento === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -133,6 +138,8 @@ class EmpresaRecebimentoController extends Controller
         $empresaRecebimento->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
         $empresaRecebimento->save();
+        // Recupera modelo com relacionamentos
+        $empresaRecebimento = $this->empresaRecebimento->with(['recebimento.recebimentos_cartoes'])->find($empresaRecebimento->id);
 
         return response()->json($empresaRecebimento, 200);
     }

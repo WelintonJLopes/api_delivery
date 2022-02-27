@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Empresa extends Model
 {
     use HasFactory;
-    protected $fillable = ['empresa', 'cnpj', 'imagem', 'sobre', 'telefone', 'email', 'rua', 'numero', 'bairro', 'complemento', 'cep', 'status', 'status_funcionamento', 'entrega', 'taxa_entrega', 'valor_minimo_pedido', 'user_id', 'cidade_id', 'estado_id', 'especialidade_id'];
+    protected $fillable = ['empresa', 'cnpj', 'imagem', 'sobre', 'telefone', 'email', 'rua', 'numero', 'bairro', 'complemento', 'cep', 'status', 'status_funcionamento', 'entrega', 'taxa_entrega', 'valor_minimo_pedido', 'user_id', 'cidade_id', 'estado_id'];
 
     public function rules() {
         return [
@@ -31,7 +31,6 @@ class Empresa extends Model
             'user_id' => 'required|exists:users,id',
             'cidade_id' => 'required|exists:cidades,id',
             'estado_id' => 'required|exists:estados,id',
-            'especialidade_id' => 'required|exists:especialidades,id',
         ];
     }
 
@@ -43,6 +42,11 @@ class Empresa extends Model
     public function estado()
     {
         return $this->belongsTo('App\Models\Estado');
+    }
+
+    public function empresas_categorias()
+    {
+        return $this->hasMany('App\Models\EmpresaCategoria');
     }
 
     public function empresas_entregas()

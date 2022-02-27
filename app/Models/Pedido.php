@@ -21,4 +21,19 @@ class Pedido extends Model
             'cupom_id' => 'exists:cupons,id',
         ];
     }
+
+    public function pedidos_produtos()
+    {
+        return $this->hasMany('App\Models\PedidoProduto');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function cupom()
+    {
+        return $this->belongsTo('App\Models\Cupom');
+    }
 }

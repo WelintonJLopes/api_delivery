@@ -24,6 +24,9 @@ class ProdutoController extends Controller
         // Instancia um objeto do tipo Repository passando o modelo produto
         $produtoRepository = new ProdutoRepository($this->produto);
 
+        // Recupera registro da tabela de relacionamentos
+        $produtoRepository->selectAtributosRegistrosRelacionados(['produtos_detalhes', 'produtos_opcionais.opcional', 'categoria']);
+
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
             $produtoRepository->filtro($request->filtro);         
@@ -76,6 +79,8 @@ class ProdutoController extends Controller
         $request->validate($this->produto->rules());        
         // Salva a request na tabela e retorna o registro inserido
         $produto = $this->produto->create($request->all());
+        // Recupera modelo com relacionamentos
+        $produto = $this->produto->with(['produtos_detalhes', 'produtos_opcionais.opcional', 'categoria'])->find($produto->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($produto, 201);
     }
@@ -89,7 +94,7 @@ class ProdutoController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $produto = $this->produto->find($id);
+        $produto = $this->produto->with(['produtos_detalhes', 'produtos_opcionais.opcional', 'categoria'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($produto === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -133,6 +138,8 @@ class ProdutoController extends Controller
         $produto->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
         $produto->save();
+        // Recupera modelo com relacionamentos
+        $produto = $this->produto->with(['produtos_detalhes', 'produtos_opcionais.opcional', 'categoria'])->find($produto->id);
 
         return response()->json($produto, 200);
     }

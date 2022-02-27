@@ -18,9 +18,9 @@ class CreateOpcionaisTable extends Migration
             $table->string('opcional', 100);
             $table->text('descricao')->nullable();
             $table->decimal('valor', $precision = 8, $scale = 2);
+            $table->boolean('status');
             $table->integer('minimo');
             $table->integer('maximo');
-            $table->boolean('status');
             $table->timestamps();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('empresa_id');
