@@ -25,7 +25,7 @@ class PedidoController extends Controller
         $pedidoRepository = new PedidoRepository($this->pedido);
 
         // Recupera registro da tabela de relacionamentos
-        $pedidoRepository->selectAtributosRegistrosRelacionados(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'pedidos_produtos.pedidos_produtos_opcionais.opcional', 'user']);
+        $pedidoRepository->selectAtributosRegistrosRelacionados(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'user']);
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
@@ -80,7 +80,7 @@ class PedidoController extends Controller
         // Salva a request na tabela e retorna o registro inserido
         $pedido = $this->pedido->create($request->all());
         // Recupera modelo com relacionamentos
-        $pedido = $this->pedido->with(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'pedidos_produtos.pedidos_produtos_opcionais.opcional', 'user'])->find($pedido->id);
+        $pedido = $this->pedido->with(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'user'])->find($pedido->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($pedido, 201);
     }
@@ -95,7 +95,7 @@ class PedidoController extends Controller
     {
         // Busca na tabela por id
         // Recupera modelo com relacionamentos
-        $pedido = $this->pedido->with(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'pedidos_produtos.pedidos_produtos_opcionais.opcional', 'user'])->find($id);
+        $pedido = $this->pedido->with(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'user'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($pedido === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -140,7 +140,7 @@ class PedidoController extends Controller
         // Salva a instancia do modelo atualizada pela request no banco
         $pedido->save();
         // Recupera modelo com relacionamentos
-        $pedido = $this->pedido->with(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'pedidos_produtos.pedidos_produtos_opcionais.opcional', 'user'])->find($pedido->id);
+        $pedido = $this->pedido->with(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'user'])->find($pedido->id);
 
         return response()->json($pedido, 200);
     }
