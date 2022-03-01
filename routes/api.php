@@ -43,10 +43,10 @@ Route::middleware('jwt.auth')->group(function () {
     Route::apiResource('produto-opcional', 'ProdutoOpcionalController');
     Route::apiResource('recebimento', 'RecebimentoController');
     Route::apiResource('recebimento-cartao', 'RecebimentoCartaoController');
-    Route::apiResource('usuario', 'UserController');
     Route::apiResource('usuario-cupom', 'UsuarioCupomController');
     Route::apiResource('usuario-endereco', 'UsuarioEnderecoController');
 });
+Route::apiResource('usuario', 'UserController');
 
 
 /* -- Rotas não protegidas --  */

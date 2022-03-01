@@ -29,7 +29,7 @@ class CreateEmpresasTable extends Migration
             $table->boolean('status');
             $table->boolean('status_funcionamento');
             $table->boolean('entrega');
-            $table->boolean('taxa_entrega');
+            $table->decimal('taxa_entrega', $precision = 8, $scale = 2);
             $table->decimal('valor_minimo_pedido', $precision = 8, $scale = 2);
             $table->timestamps();
             $table->unsignedBigInteger('user_id');
