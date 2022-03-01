@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CardapioProduto;
-use App\Repositories\CardapioProdutoRepository;
+use App\Models\PedidoStatus;
+use App\Repositories\PedidoStatusRepository;
 use Illuminate\Http\Request;
 use function GuzzleHttp\Promise\all;
 
-class CardapioProdutoController extends Controller
+class PedidoStatusController extends Controller
 {
-    public function __construct(CardapioProduto $cardapioProduto)
+    public function __construct(PedidoStatus $pedidoStatus)
     {
-        $this->cardapioProduto = $cardapioProduto; 
+        $this->pedidoStatus = $pedidoStatus;
     }
 
     /**
@@ -21,50 +21,47 @@ class CardapioProdutoController extends Controller
      */
     public function index(Request $request)
     {
-        // Instancia um objeto do tipo Repository passando o modelo cardapioProduto
-        $cardapioProdutoRepository = new CardapioProdutoRepository($this->cardapioProduto);
-
-        // Recupera registro da tabela de relacionamentos
-        $cardapioProdutoRepository->selectAtributosRegistrosRelacionados(['produto.produtos_detalhes', 'empresa', 'user']);
+        // Instancia um objeto do tipo Repository passando o modelo pedidoStatus
+        $pedidoStatusRepository = new PedidoStatusRepository($this->pedidoStatus);
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $cardapioProdutoRepository->filtro($request->filtro);         
+            $pedidoStatusRepository->filtro($request->filtro);         
         }
         
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $cardapioProdutoRepository->selectAtributos($request->atributos);         
+            $pedidoStatusRepository->selectAtributos($request->atributos);         
         }
 
         // Verifica se a resquest tem o parametro order
         if ($request->has('order')) {
-            $cardapioProdutoRepository->orderByColumn($request->order);
+            $pedidoStatusRepository->orderByColumn($request->order);
         }
 
         // Verifica se a resquest tem o parametro order_desc
         if ($request->has('order_desc')) {
-            $cardapioProdutoRepository->orderByDescColumn($request->order_desc);
+            $pedidoStatusRepository->orderByDescColumn($request->order_desc);
         }
 
         // Verifica se a resquest tem o parametro offset
         if ($request->has('offset')) {
-            $cardapioProdutoRepository->offsetRegistros($request->offset);
+            $pedidoStatusRepository->offsetRegistros($request->offset);
         }
 
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
-            $cardapioProdutoRepository->limiteRegistros($request->limite);
+            $pedidoStatusRepository->limiteRegistros($request->limite);
         }        
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
-            $cardapioProduto = $cardapioProdutoRepository->getResultadoPaginado($request->paginas);
+            $pedidoStatus = $pedidoStatusRepository->getResultadoPaginado($request->paginas);
         } else {
-            $cardapioProduto = $cardapioProdutoRepository->getResultado();
+            $pedidoStatus = $pedidoStatusRepository->getResultado();
         }
 
-        return response()->json($cardapioProduto, 200);
+        return response()->json($pedidoStatus, 200);
     }
 
     /**
@@ -76,13 +73,11 @@ class CardapioProdutoController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->cardapioProduto->rules());        
+        $request->validate($this->pedidoStatus->rules());        
         // Salva a request na tabela e retorna o registro inserido
-        $cardapioProduto = $this->cardapioProduto->create($request->all());
-        // Recupera modelo com relacionamentos
-        $cardapioProduto = $this->cardapioProduto->with(['produto.produtos_detalhes', 'empresa', 'user'])->find($cardapioProduto->id);
+        $pedidoStatus = $this->pedidoStatus->create($request->all());
         // Retorna em formato JSON o registro inserido
-        return response()->json($cardapioProduto, 201);
+        return response()->json($pedidoStatus, 201);
     }
 
     /**
@@ -94,13 +89,13 @@ class CardapioProdutoController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $cardapioProduto = $this->cardapioProduto->with(['produto.produtos_detalhes', 'empresa', 'user'])->find($id);
+        $pedidoStatus = $this->pedidoStatus->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
-        if ($cardapioProduto === null) {
+        if ($pedidoStatus === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
         }
         // Resposta com registro buscado no banco
-        return response()->json($cardapioProduto, 200);
+        return response()->json($pedidoStatus, 200);
     }
 
     /**
@@ -113,15 +108,15 @@ class CardapioProdutoController extends Controller
     public function update(Request $request, $id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $cardapioProduto = $this->cardapioProduto->find($id);
-        if ($cardapioProduto === null) {
+        $pedidoStatus = $this->pedidoStatus->find($id);
+        if ($pedidoStatus === null) {
             return response()->json(['erro' => 'Impossível realizar a atualização. O recurso solicitado não existe!'], 404);
         }
 
         if ($request->method() === 'PATCH') {
             $regrasDinamicas = [];
             // Percorre todas as regras definidas no model
-            foreach ($cardapioProduto->rules() as $input => $regra) {
+            foreach ($pedidoStatus->rules() as $input => $regra) {
                 // Coletar apenas as regras aplicaveis aos parametros da requição parcial
                 if (array_key_exists($input, $request->all())) {
                     $regrasDinamicas[$input] = $regra;
@@ -129,19 +124,17 @@ class CardapioProdutoController extends Controller
             }
             $request->validate($regrasDinamicas);
         } else {
-            $request->validate($cardapioProduto->rules());
+            $request->validate($pedidoStatus->rules());
         }
 
-        // Preencher a instancia do medelo de cardapioProduto com a request encaminhada
-        $cardapioProduto->fill($request->all());
+        // Preencher a instancia do medelo de pedidoStatus com a request encaminhada
+        $pedidoStatus->fill($request->all());
         // Atualiza o updated_at
-        $cardapioProduto->updated_at = date('Y-m-d H:i:s');
+        $pedidoStatus->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
-        $cardapioProduto->save();
-        // Recupera modelo com relacionamentos
-        $cardapioProduto = $this->cardapioProduto->with(['produto.produtos_detalhes', 'empresa', 'user'])->find($cardapioProduto->id);
+        $pedidoStatus->save();
 
-        return response()->json($cardapioProduto, 200);
+        return response()->json($pedidoStatus, 200);
     }
 
     /**
@@ -153,12 +146,12 @@ class CardapioProdutoController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $cardapioProduto = $this->cardapioProduto->find($id);        
-        if ($cardapioProduto === null) {
+        $pedidoStatus = $this->pedidoStatus->find($id);        
+        if ($pedidoStatus === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }
         // Deleta o registro selecionado
-        $cardapioProduto->delete();
+        $pedidoStatus->delete();
 
         return response()->json(['msg' => 'O registro foi removido com sucesso!'], 200);
     }

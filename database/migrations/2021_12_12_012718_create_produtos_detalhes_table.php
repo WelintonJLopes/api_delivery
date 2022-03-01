@@ -22,8 +22,12 @@ class CreateProdutosDetalhesTable extends Migration
             $table->boolean('principal');
             $table->timestamps();
             $table->unsignedBigInteger('produto_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('empresa_id');
 
             $table->foreign('produto_id')->references('id')->on('produtos');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('empresa_id')->references('id')->on('empresas');
         });
     }
 
@@ -36,6 +40,8 @@ class CreateProdutosDetalhesTable extends Migration
     {
         Schema::table('produtos_detalhes', function(Blueprint $table){
             $table->dropForeign('produtos_detalhes_produto_id_foreign');
+            $table->dropForeign('produtos_detalhes_user_id_foreign');
+            $table->dropForeign('produtos_detalhes_empresa_id_foreign');
         });
 
         Schema::dropIfExists('produtos_detalhes');

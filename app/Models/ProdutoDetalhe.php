@@ -9,7 +9,7 @@ class ProdutoDetalhe extends Model
 {
     use HasFactory;
     protected $table = 'produtos_detalhes';
-    protected $fillable = ['tamanho', 'pessoas', 'valor', 'desconto', 'principal', 'produto_id'];
+    protected $fillable = ['tamanho', 'pessoas', 'valor', 'desconto', 'principal', 'produto_id', 'user_id', 'empressa_id'];
 
     public function rules() {
         return [
@@ -19,6 +19,18 @@ class ProdutoDetalhe extends Model
             'desconto' => 'required|numeric',
             'principal' => 'required|boolean',
             'produto_id' => 'required|exists:produtos,id',
+            'user_id' => 'required|exists:users,id',
+            'empresa_id' => 'required|exists:empresas,id'
         ];
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function empresa()
+    {
+        return $this->belongsTo('App\Models\Empresa');
     }
 }

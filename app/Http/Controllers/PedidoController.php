@@ -25,16 +25,26 @@ class PedidoController extends Controller
         $pedidoRepository = new PedidoRepository($this->pedido);
 
         // Recupera registro da tabela de relacionamentos
-        $pedidoRepository->selectAtributosRegistrosRelacionados(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'user']);
+        $pedidoRepository->selectAtributosRegistrosRelacionados([
+            'pedidos_produtos.produto',
+            'pedidos_produtos.produto_detalhe',
+            'pedidos_produtos.pedidos_produtos_opcionais.opcional',
+            'user',
+            'recebimento',
+            'recebimento_cartao', 
+            'pedido_status',
+            'usuario_endereco.cidade',
+            'usuario_endereco.estado'
+        ]);
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $pedidoRepository->filtro($request->filtro);         
+            $pedidoRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $pedidoRepository->selectAtributos($request->atributos);         
+            $pedidoRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -55,7 +65,7 @@ class PedidoController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $pedidoRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -76,11 +86,21 @@ class PedidoController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->pedido->rules());        
+        $request->validate($this->pedido->rules());
         // Salva a request na tabela e retorna o registro inserido
         $pedido = $this->pedido->create($request->all());
         // Recupera modelo com relacionamentos
-        $pedido = $this->pedido->with(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'user'])->find($pedido->id);
+        $pedido = $this->pedido->with([
+            'pedidos_produtos.produto',
+            'pedidos_produtos.produto_detalhe',
+            'pedidos_produtos.pedidos_produtos_opcionais.opcional',
+            'user',
+            'recebimento',
+            'recebimento_cartao', 
+            'pedido_status',
+            'usuario_endereco.cidade',
+            'usuario_endereco.estado'
+        ])->find($pedido->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($pedido, 201);
     }
@@ -94,8 +114,17 @@ class PedidoController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        // Recupera modelo com relacionamentos
-        $pedido = $this->pedido->with(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'user'])->find($id);
+        $pedido = $this->pedido->with([
+            'pedidos_produtos.produto',
+            'pedidos_produtos.produto_detalhe',
+            'pedidos_produtos.pedidos_produtos_opcionais.opcional',
+            'user',
+            'recebimento',
+            'recebimento_cartao', 
+            'pedido_status',
+            'usuario_endereco.cidade',
+            'usuario_endereco.estado'
+        ])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($pedido === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -140,7 +169,17 @@ class PedidoController extends Controller
         // Salva a instancia do modelo atualizada pela request no banco
         $pedido->save();
         // Recupera modelo com relacionamentos
-        $pedido = $this->pedido->with(['pedidos_produtos.produto', 'pedidos_produtos.produto_detalhe', 'user'])->find($pedido->id);
+        $pedido = $this->pedido->with([
+            'pedidos_produtos.produto',
+            'pedidos_produtos.produto_detalhe',
+            'pedidos_produtos.pedidos_produtos_opcionais.opcional',
+            'user',
+            'recebimento',
+            'recebimento_cartao', 
+            'pedido_status',
+            'usuario_endereco.cidade',
+            'usuario_endereco.estado'
+        ])->find($pedido->id);
 
         return response()->json($pedido, 200);
     }
@@ -154,7 +193,7 @@ class PedidoController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $pedido = $this->pedido->find($id);        
+        $pedido = $this->pedido->find($id);
         if ($pedido === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }
