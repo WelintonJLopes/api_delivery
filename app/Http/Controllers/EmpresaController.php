@@ -118,6 +118,10 @@ class EmpresaController extends Controller
             return response()->json(['erro' => 'Impossível realizar a atualização. O recurso solicitado não existe!'], 404);
         }
 
+        if ($empresa->user_id != auth()->user()->id) {
+            return response()->json(['erro' => 'Usuário não tem permissão de alterar o recurso solicitado!'], 403);
+        }
+
         if ($request->method() === 'PATCH') {
             $regrasDinamicas = [];
             // Percorre todas as regras definidas no model
@@ -157,6 +161,11 @@ class EmpresaController extends Controller
         if ($empresa === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }
+
+        if ($empresa->user_id != auth()->user()->id) {
+            return response()->json(['erro' => 'Usuário não tem permissão de deletar o recurso solicitado!'], 403);
+        }
+
         // Deleta o registro selecionado
         $empresa->delete();
 

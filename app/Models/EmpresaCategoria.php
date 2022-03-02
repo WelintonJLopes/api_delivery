@@ -9,12 +9,13 @@ class EmpresaCategoria extends Model
 {
     use HasFactory;
     protected $table = 'empresas_categorias';
-    protected $fillable = ['empresa_id', 'categoria_id'];
+    protected $fillable = ['empresa_id', 'categoria_id', 'user_id'];
 
     public function rules() {
         return [
             'empresa_id' => 'required|exists:empresas,id',
             'categoria_id' => 'required|exists:categorias,id',
+            'user_id' => 'required|exists:users,id',
         ];
     }
 

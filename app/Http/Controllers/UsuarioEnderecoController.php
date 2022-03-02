@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\UsuarioEndereco;
 use App\Repositories\UsuarioEnderecoRepository;
 use Illuminate\Http\Request;
@@ -75,6 +76,15 @@ class UsuarioEnderecoController extends Controller
      */
     public function store(Request $request)
     {
+        $user = User::find($request->user_id);
+        if ($user === null) {
+            return response()->json(['erro' => 'Usuário não tem permissão de inserir o recurso solicitado!'], 403);
+        }
+
+        if ($user->id != auth()->user()->id) {
+            return response()->json(['erro' => 'Usuário não tem permissão de inserir o recurso solicitado!'], 403);
+        }
+
         // Recebe a request e valida os campos
         $request->validate($this->usuarioEndereco->rules());        
         // Salva a request na tabela e retorna o registro inserido

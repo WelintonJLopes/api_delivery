@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Empresa;
 use App\Models\ProdutoOpcional;
 use App\Repositories\ProdutoOpcionalRepository;
 use Illuminate\Http\Request;
@@ -75,6 +76,15 @@ class ProdutoOpcionalController extends Controller
      */
     public function store(Request $request)
     {
+        $empresa = Empresa::find($request->empresa_id);
+        if ($empresa === null) {
+            return response()->json(['erro' => 'Usuário não tem permissão de inserir o recurso solicitado!'], 403);
+        }
+
+        if ($empresa->user_id != auth()->user()->id) {
+            return response()->json(['erro' => 'Usuário não tem permissão de inserir o recurso solicitado!'], 403);
+        }
+
         // Recebe a request e valida os campos
         $request->validate($this->produtoOpcional->rules());        
         // Salva a request na tabela e retorna o registro inserido
@@ -118,6 +128,10 @@ class ProdutoOpcionalController extends Controller
             return response()->json(['erro' => 'Impossível realizar a atualização. O recurso solicitado não existe!'], 404);
         }
 
+        if ($produtoOpcional->user_id != auth()->user()->id) {
+            return response()->json(['erro' => 'Usuário não tem permissão de alterar o recurso solicitado!'], 403);
+        }
+
         if ($request->method() === 'PATCH') {
             $regrasDinamicas = [];
             // Percorre todas as regras definidas no model
@@ -157,6 +171,11 @@ class ProdutoOpcionalController extends Controller
         if ($produtoOpcional === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }
+
+        if ($produtoOpcional->user_id != auth()->user()->id) {
+            return response()->json(['erro' => 'Usuário não tem permissão de deletar o recurso solicitado!'], 403);
+        }
+
         // Deleta o registro selecionado
         $produtoOpcional->delete();
 

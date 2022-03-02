@@ -20,10 +20,12 @@ class CreateEmpresasEntregasTable extends Migration
             $table->unsignedBigInteger('empresa_id');
             $table->unsignedBigInteger('cidade_id');
             $table->unsignedBigInteger('estado_id');
+            $table->unsignedBigInteger('user_id');
 
             $table->foreign('empresa_id')->references('id')->on('empresas');
             $table->foreign('cidade_id')->references('id')->on('cidades');
             $table->foreign('estado_id')->references('id')->on('estados');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -38,6 +40,7 @@ class CreateEmpresasEntregasTable extends Migration
             $table->dropForeign('empresas_entregas_empresa_id_foreign');
             $table->dropForeign('empresas_entregas_cidade_id_foreign');
             $table->dropForeign('empresas_entregas_estado_id_foreign');
+            $table->dropForeign('empresas_entregas_user_id_foreign');
         });
 
         Schema::dropIfExists('empresas_entregas');

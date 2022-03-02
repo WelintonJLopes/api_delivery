@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Empresa;
 use App\Models\EmpresaHorario;
 use App\Repositories\EmpresaHorarioRepository;
 use Illuminate\Http\Request;
@@ -72,6 +73,15 @@ class EmpresaHorarioController extends Controller
      */
     public function store(Request $request)
     {
+        $empresa = Empresa::find($request->empresa_id);
+        if ($empresa === null) {
+            return response()->json(['erro' => 'Usuário não tem permissão de inserir o recurso solicitado!'], 403);
+        }
+
+        if ($empresa->user_id != auth()->user()->id) {
+            return response()->json(['erro' => 'Usuário não tem permissão de inserir o recurso solicitado!'], 403);
+        }
+
         // Recebe a request e valida os campos
         $request->validate($this->empresaHorario->rules());        
         // Salva a request na tabela e retorna o registro inserido
@@ -113,6 +123,10 @@ class EmpresaHorarioController extends Controller
             return response()->json(['erro' => 'Impossível realizar a atualização. O recurso solicitado não existe!'], 404);
         }
 
+        if ($empresaHorario->user_id != auth()->user()->id) {
+            return response()->json(['erro' => 'Usuário não tem permissão de alterar o recurso solicitado!'], 403);
+        }
+
         if ($request->method() === 'PATCH') {
             $regrasDinamicas = [];
             // Percorre todas as regras definidas no model
@@ -150,6 +164,11 @@ class EmpresaHorarioController extends Controller
         if ($empresaHorario === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }
+
+        if ($empresaHorario->user_id != auth()->user()->id) {
+            return response()->json(['erro' => 'Usuário não tem permissão de deletar o recurso solicitado!'], 403);
+        }
+
         // Deleta o registro selecionado
         $empresaHorario->delete();
 

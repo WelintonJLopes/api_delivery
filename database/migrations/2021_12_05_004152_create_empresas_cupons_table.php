@@ -19,9 +19,11 @@ class CreateEmpresasCuponsTable extends Migration
             $table->integer('quantidade');
             $table->unsignedBigInteger('empresa_id');
             $table->unsignedBigInteger('cupom_id');
+            $table->unsignedBigInteger('user_id');
 
             $table->foreign('empresa_id')->references('id')->on('empresas');
             $table->foreign('cupom_id')->references('id')->on('cupons');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -35,6 +37,7 @@ class CreateEmpresasCuponsTable extends Migration
         Schema::table('empresas_cupons', function(Blueprint $table){
             $table->dropForeign('empresas_cupons_empresa_id_foreign');
             $table->dropForeign('empresas_cupons_cupom_id_foreign');
+            $table->dropForeign('empresas_cupons_user_id_foreign');
         });
 
         Schema::dropIfExists('empresas_cupons');

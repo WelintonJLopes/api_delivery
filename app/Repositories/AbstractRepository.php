@@ -16,6 +16,16 @@ abstract class AbstractRepository
         $this->model = $this->model->with($atributos);
     }
 
+    public function selectRegistrosEmpresaId($id)
+    {
+        $this->model = $this->model->where('empresa_id', '=', $id);
+    }
+
+    public function selectRegistrosUserId($id)
+    {
+        $this->model = $this->model->where('user_id', '=', $id);
+    }
+
     public function filtro($filtros)
     {
         $filtros = explode(';', $filtros); //$request->filtro

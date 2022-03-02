@@ -9,7 +9,7 @@ class EmpresaEntrega extends Model
 {
     use HasFactory;
     protected $table = 'empresas_entregas';
-    protected $fillable = ['taxa_entrega', 'empresa_id', 'cidade_id', 'estado_id'];
+    protected $fillable = ['taxa_entrega', 'empresa_id', 'cidade_id', 'estado_id', 'user_id'];
 
     public function rules() {
         return [
@@ -17,6 +17,7 @@ class EmpresaEntrega extends Model
             'empresa_id' => 'required|exists:empresas,id',
             'cidade_id' => 'required|exists:cidades,id',
             'estado_id' => 'required|exists:estados,id',
+            'user_id' => 'required|exists:users,id',
         ];
     }
 
