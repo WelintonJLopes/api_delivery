@@ -20,12 +20,14 @@ class CreatePedidosProdutosOpcionaisTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('pedido_id');
             $table->unsignedBigInteger('produto_id');
+            $table->unsignedBigInteger('pedido_produto_id');
             $table->unsignedBigInteger('opcional_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('empresa_id');
 
             $table->foreign('pedido_id')->references('id')->on('pedidos');
             $table->foreign('produto_id')->references('id')->on('produtos');
+            $table->foreign('pedido_produto_id')->references('id')->on('pedidos_produtos');
             $table->foreign('opcional_id')->references('id')->on('opcionais');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('empresa_id')->references('id')->on('empresas');
@@ -42,6 +44,7 @@ class CreatePedidosProdutosOpcionaisTable extends Migration
         Schema::table('pedidos_produtos_opcionais', function(Blueprint $table){
             $table->dropForeign('pedidos_produtos_opcionais_pedido_id_foreign');
             $table->dropForeign('pedidos_produtos_opcionais_produto_id_foreign');
+            $table->dropForeign('pedidos_produtos_opcionais_pedido_produto_id_foreign');
             $table->dropForeign('pedidos_produtos_opcionais_opcional_id_foreign');
             $table->dropForeign('pedidos_produtos_opcionais_user_id_foreign');
             $table->dropForeign('pedidos_produtos_opcionais_empresa_id_foreign');
