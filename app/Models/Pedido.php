@@ -12,9 +12,6 @@ class Pedido extends Model
     
     public function rules() {
         return [
-            'data_aceite' => 'date',
-            'data_entrega' => 'date',
-            'data_cancelamento' => 'date',
             'valor' => 'numeric',
             'troco' => 'numeric',
             'user_id' => 'required|exists:users,id',

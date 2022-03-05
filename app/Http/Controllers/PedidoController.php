@@ -164,6 +164,18 @@ class PedidoController extends Controller
 
         // Preencher a instancia do medelo de pedido com a request encaminhada
         $pedido->fill($request->all());
+        // Verifica se o campo data_aceite foi preenchido
+        if ($request->data_aceite) {
+            $pedido->data_aceite = date('Y-m-d H:i:s');
+        }
+        // Verifica se o campo data_entrega foi preenchido
+        if ($request->data_entrega) {
+            $pedido->data_entrega = date('Y-m-d H:i:s');
+        }
+        // Verifica se o campo data_cancelamento foi preenchido
+        if ($request->data_cancelamento) {
+            $pedido->data_cancelamento = date('Y-m-d H:i:s');
+        }
         // Atualiza o updated_at
         $pedido->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
