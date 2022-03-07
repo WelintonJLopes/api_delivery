@@ -14,7 +14,6 @@ class Cardapio extends Model
     {
         return [
             'cardapio' => 'required|min:3|max:190',
-            'user_id' => 'required|exists:users,id',
             'empresa_id' => 'required|exists:empresas,id'
         ];
     }

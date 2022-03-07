@@ -83,9 +83,17 @@ class OpcionalController extends Controller
         }
 
         // Recebe a request e valida os campos
-        $request->validate($this->opcional->rules());        
+        $request->validate($this->opcional->rules());     
         // Salva a request na tabela e retorna o registro inserido
-        $opcional = $this->opcional->create($request->all());
+        $opcional = $this->opcional->create([
+            'opcional' => $request->opcional,
+            'valor' => $request->valor,
+            'status' => $request->status,
+            'minimo' => $request->minimo,
+            'maximo' => $request->maximo,
+            'empresa_id' => $request->empresa_id,
+            'user_id' => auth()->user()->id,
+        ]);
         // Retorna em formato JSON o registro inserido
         return response()->json($opcional, 201);
     }

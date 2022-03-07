@@ -12,7 +12,7 @@ class CardapioController extends Controller
 {
     public function __construct(Cardapio $cardapio)
     {
-        $this->cardapio = $cardapio; 
+        $this->cardapio = $cardapio;
     }
 
     /**
@@ -30,12 +30,12 @@ class CardapioController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $cardapioRepository->filtro($request->filtro);         
+            $cardapioRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $cardapioRepository->selectAtributos($request->atributos);         
+            $cardapioRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -56,7 +56,7 @@ class CardapioController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $cardapioRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -86,9 +86,13 @@ class CardapioController extends Controller
         }
 
         // Recebe a request e valida os campos
-        $request->validate($this->cardapio->rules());        
+        $request->validate($this->cardapio->rules());
         // Salva a request na tabela e retorna o registro inserido
-        $cardapio = $this->cardapio->create($request->all());
+        $cardapio = $this->cardapio->create([
+            'cardapio' => $request->cardapio,
+            'empresa_id' => $request->empresa_id,
+            'user_id' => auth()->user()->id,
+        ]);
         // Recupera modelo com relacionamentos
         $cardapio = $this->cardapio->with(['cardapios_produtos.produto.produtos_detalhes', 'empresa', 'user'])->find($cardapio->id);
         // Retorna em formato JSON o registro inserido
@@ -167,7 +171,7 @@ class CardapioController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $cardapio = $this->cardapio->find($id);        
+        $cardapio = $this->cardapio->find($id);
         if ($cardapio === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

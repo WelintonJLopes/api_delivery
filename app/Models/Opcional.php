@@ -18,7 +18,6 @@ class Opcional extends Model
             'status' => 'required|boolean',
             'minimo' => 'required|numeric',
             'maximo' => 'required|numeric',
-            'user_id' => 'required|exists:users,id',
             'empresa_id' => 'required|exists:empresas,id',
         ];
     }
