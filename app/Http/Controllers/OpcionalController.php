@@ -12,7 +12,7 @@ class OpcionalController extends Controller
 {
     public function __construct(Opcional $opcional)
     {
-        $this->opcional = $opcional; 
+        $this->opcional = $opcional;
     }
 
     /**
@@ -27,12 +27,12 @@ class OpcionalController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $opcionalRepository->filtro($request->filtro);         
+            $opcionalRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $opcionalRepository->selectAtributos($request->atributos);         
+            $opcionalRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -53,7 +53,7 @@ class OpcionalController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $opcionalRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -83,7 +83,7 @@ class OpcionalController extends Controller
         }
 
         // Recebe a request e valida os campos
-        $request->validate($this->opcional->rules());     
+        $request->validate($this->opcional->rules());
         // Salva a request na tabela e retorna o registro inserido
         $opcional = $this->opcional->create([
             'opcional' => $request->opcional,
@@ -168,7 +168,7 @@ class OpcionalController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $opcional = $this->opcional->find($id);        
+        $opcional = $this->opcional->find($id);
         if ($opcional === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

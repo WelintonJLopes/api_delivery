@@ -30,12 +30,12 @@ class ProdutoController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $produtoRepository->filtro($request->filtro);         
+            $produtoRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $produtoRepository->selectAtributos($request->atributos);         
+            $produtoRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -56,7 +56,7 @@ class ProdutoController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $produtoRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -86,9 +86,28 @@ class ProdutoController extends Controller
         }
 
         // Recebe a request e valida os campos
-        $request->validate($this->produto->rules());        
+        $request->validate($this->produto->rules());
         // Salva a request na tabela e retorna o registro inserido
-        $produto = $this->produto->create($request->all());
+        $produto = $this->produto->create([
+            'produto' => $request->produto,
+            'descricao' => $request->descricao,
+            'categoria_id' => $request->categoria_id,
+            'status' => $request->status,
+            'imagem' => $request->imagem,
+            'destaque' => $request->destaque,
+            'empresa_id' => $request->empresa_id,
+            'user_id' => auth()->user()->id,
+        ]);
+
+        // Insere o relacionamento de cargos na tabela produtos_opcionais
+        foreach ($request->produtos_opcionais as $opcional_id) {
+            $produto->produtos_opcionais()->create([
+                'user_id' => auth()->user()->id,
+                'empresa_id' => $request->empresa_id,
+                'opcional_id' => $opcional_id
+            ]);
+        }
+
         // Recupera modelo com relacionamentos
         $produto = $this->produto->with(['produtos_detalhes', 'produtos_opcionais.opcional', 'categoria'])->find($produto->id);
         // Retorna em formato JSON o registro inserido
@@ -152,6 +171,21 @@ class ProdutoController extends Controller
         $produto->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
         $produto->save();
+
+        // Verifica se a request contem um array de produtos_opcionais 
+        if ($request->produtos_opcionais) {
+            // Remove os registros de relacionamento
+            $produto->produtos_opcionais()->sync([]);
+            // Insere o relacionamento de opcionais na tabela produtos_opcionais
+            foreach ($request->produtos_opcionais as $opcional_id) {
+                $produto->produtos_opcionais()->create([
+                    'user_id' => auth()->user()->id,
+                    'empresa_id' => $request->empresa_id,
+                    'opcional_id' => $opcional_id
+                ]);
+            }
+        }
+
         // Recupera modelo com relacionamentos
         $produto = $this->produto->with(['produtos_detalhes', 'produtos_opcionais.opcional', 'categoria'])->find($produto->id);
 
@@ -167,7 +201,7 @@ class ProdutoController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $produto = $this->produto->find($id);        
+        $produto = $this->produto->find($id);
         if ($produto === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }
@@ -175,6 +209,8 @@ class ProdutoController extends Controller
         if ($produto->user_id != auth()->user()->id) {
             return response()->json(['erro' => 'Usuário não tem permissão de deletar o recurso solicitado!'], 403);
         }
+
+        $produto->produtos_opcionais()->sync([]);
 
         // Deleta o registro selecionado
         $produto->delete();
