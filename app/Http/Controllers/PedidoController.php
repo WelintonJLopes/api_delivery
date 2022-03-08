@@ -31,7 +31,7 @@ class PedidoController extends Controller
             'pedidos_produtos.pedidos_produtos_opcionais.opcional',
             'user',
             'recebimento',
-            'recebimento_cartao', 
+            'recebimento_cartao',
             'pedido_status',
             'usuario_endereco.cidade',
             'usuario_endereco.estado'
@@ -40,6 +40,11 @@ class PedidoController extends Controller
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
             $pedidoRepository->filtro($request->filtro);
+        }
+
+        // Verifica se a resquest tem o parametro filtro
+        if ($request->has('filtro_data')) {
+            $pedidoRepository->filtroData($request->filtro_data);
         }
 
         // Verifica se a resquest tem o parametro atributos
@@ -96,7 +101,7 @@ class PedidoController extends Controller
             'pedidos_produtos.pedidos_produtos_opcionais.opcional',
             'user',
             'recebimento',
-            'recebimento_cartao', 
+            'recebimento_cartao',
             'pedido_status',
             'usuario_endereco.cidade',
             'usuario_endereco.estado'
@@ -120,7 +125,7 @@ class PedidoController extends Controller
             'pedidos_produtos.pedidos_produtos_opcionais.opcional',
             'user',
             'recebimento',
-            'recebimento_cartao', 
+            'recebimento_cartao',
             'pedido_status',
             'usuario_endereco.cidade',
             'usuario_endereco.estado'
@@ -187,7 +192,7 @@ class PedidoController extends Controller
             'pedidos_produtos.pedidos_produtos_opcionais.opcional',
             'user',
             'recebimento',
-            'recebimento_cartao', 
+            'recebimento_cartao',
             'pedido_status',
             'usuario_endereco.cidade',
             'usuario_endereco.estado'

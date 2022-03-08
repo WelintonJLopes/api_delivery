@@ -26,6 +26,16 @@ abstract class AbstractRepository
         $this->model = $this->model->where('user_id', '=', $id);
     }
 
+    public function filtroData($filtros)
+    {
+        $filtros = explode(';', $filtros);
+
+        foreach ($filtros as $key => $condicao) {
+            $c = explode(':', $condicao);
+            $this->model = $this->model->whereBetween($c[0], [$c[1], $c[2]]);
+        }
+    }
+
     public function filtro($filtros)
     {
         $filtros = explode(';', $filtros); //$request->filtro

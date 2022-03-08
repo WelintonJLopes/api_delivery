@@ -37,6 +37,7 @@ Route::middleware('jwt.auth')->group(function () {
     Route::apiResource('opcional', 'OpcionalController');
     Route::apiResource('pedido', 'PedidoController');
     Route::apiResource('pedido-produto', 'PedidoProdutoController');
+    Route::apiResource('pedido-status', 'PedidoStatusController');
     Route::apiResource('permissao', 'PermissaoController');
     Route::apiResource('produto', 'ProdutoController');
     Route::apiResource('produto-detalhe', 'ProdutoDetalheController');
