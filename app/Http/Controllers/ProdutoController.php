@@ -99,13 +99,23 @@ class ProdutoController extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        // Insere o relacionamento de cargos na tabela produtos_opcionais
-        foreach ($request->produtos_opcionais as $opcional_id) {
-            $produto->produtos_opcionais()->create([
-                'user_id' => auth()->user()->id,
-                'empresa_id' => $request->empresa_id,
-                'opcional_id' => $opcional_id
-            ]);
+        // Insere o relacionamento na tabela cardapios_produtos
+        $produto->cardapios_produtos()->create([
+            'user_id' => auth()->user()->id,
+            'empresa_id' => $request->empresa_id,
+            'cardapio_id' => $request->cardapio_id,
+            'destaque' => 0
+        ]);
+
+        // Insere o relacionamento na tabela produtos_opcionais
+        if ($request->produtos_opcionais) {
+            foreach ($request->produtos_opcionais as $opcional_id) {
+                $produto->produtos_opcionais()->create([
+                    'user_id' => auth()->user()->id,
+                    'empresa_id' => $request->empresa_id,
+                    'opcional_id' => $opcional_id
+                ]);
+            }
         }
 
         // Recupera modelo com relacionamentos
@@ -175,8 +185,8 @@ class ProdutoController extends Controller
         // Verifica se a request contem um array de produtos_opcionais 
         if ($request->produtos_opcionais) {
             // Remove os registros de relacionamento
-            $produto->produtos_opcionais()->sync([]);
-            // Insere o relacionamento de opcionais na tabela produtos_opcionais
+            $produto->produtos_opcionais()->delete();
+            // Insere o relacionamento na tabela produtos_opcionais
             foreach ($request->produtos_opcionais as $opcional_id) {
                 $produto->produtos_opcionais()->create([
                     'user_id' => auth()->user()->id,
@@ -210,7 +220,8 @@ class ProdutoController extends Controller
             return response()->json(['erro' => 'Usuário não tem permissão de deletar o recurso solicitado!'], 403);
         }
 
-        $produto->produtos_opcionais()->sync([]);
+        $produto->produtos_opcionais()->delete();
+        $produto->cardapios_produtos()->delete();
 
         // Deleta o registro selecionado
         $produto->delete();

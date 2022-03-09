@@ -26,7 +26,12 @@ class CardapioController extends Controller
         $cardapioRepository = new CardapioRepository($this->cardapio);
 
         // Recupera registro da tabela de relacionamentos
-        $cardapioRepository->selectAtributosRegistrosRelacionados(['cardapios_produtos.produto.produtos_detalhes', 'empresa', 'user']);
+        $cardapioRepository->selectAtributosRegistrosRelacionados([
+            'cardapios_produtos.produto.produtos_detalhes',
+            'cardapios_produtos.produto.produtos_opcionais.opcional',
+            'empresa',
+            'user'
+        ]);
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
@@ -94,7 +99,7 @@ class CardapioController extends Controller
             'user_id' => auth()->user()->id,
         ]);
         // Recupera modelo com relacionamentos
-        $cardapio = $this->cardapio->with(['cardapios_produtos.produto.produtos_detalhes', 'empresa', 'user'])->find($cardapio->id);
+        $cardapio = $this->cardapio->with(['cardapios_produtos.produto.produtos_detalhes', 'cardapios_produtos.produto.produtos_opcionais.opcional', 'empresa', 'user'])->find($cardapio->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($cardapio, 201);
     }
@@ -108,7 +113,7 @@ class CardapioController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $cardapio = $this->cardapio->with(['cardapios_produtos.produto.produtos_detalhes', 'empresa', 'user'])->find($id);
+        $cardapio = $this->cardapio->with(['cardapios_produtos.produto.produtos_detalhes', 'cardapios_produtos.produto.produtos_opcionais.opcional', 'empresa', 'user'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($cardapio === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -157,7 +162,7 @@ class CardapioController extends Controller
         // Salva a instancia do modelo atualizada pela request no banco
         $cardapio->save();
         // Recupera modelo com relacionamentos
-        $cardapio = $this->cardapio->with(['cardapios_produtos.produto.produtos_detalhes', 'empresa', 'user'])->find($cardapio->id);
+        $cardapio = $this->cardapio->with(['cardapios_produtos.produto.produtos_detalhes', 'cardapios_produtos.produto.produtos_opcionais.opcional', 'empresa', 'user'])->find($cardapio->id);
 
         return response()->json($cardapio, 200);
     }

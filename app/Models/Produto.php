@@ -21,6 +21,11 @@ class Produto extends Model
         ];
     }
 
+    public function cardapios_produtos()
+    {
+        return $this->hasMany('App\Models\CardapioProduto');
+    }
+
     public function produtos_detalhes()
     {
         return $this->hasMany('App\Models\ProdutoDetalhe');

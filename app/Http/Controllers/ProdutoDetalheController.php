@@ -12,7 +12,7 @@ class ProdutoDetalheController extends Controller
 {
     public function __construct(ProdutoDetalhe $produtoDetalhe)
     {
-        $this->produtoDetalhe = $produtoDetalhe; 
+        $this->produtoDetalhe = $produtoDetalhe;
     }
 
     /**
@@ -27,12 +27,12 @@ class ProdutoDetalheController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $produtoDetalheRepository->filtro($request->filtro);         
+            $produtoDetalheRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $produtoDetalheRepository->selectAtributos($request->atributos);         
+            $produtoDetalheRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -53,7 +53,7 @@ class ProdutoDetalheController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $produtoDetalheRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -83,9 +83,18 @@ class ProdutoDetalheController extends Controller
         }
 
         // Recebe a request e valida os campos
-        $request->validate($this->produtoDetalhe->rules());        
+        $request->validate($this->produtoDetalhe->rules());
         // Salva a request na tabela e retorna o registro inserido
-        $produtoDetalhe = $this->produtoDetalhe->create($request->all());
+        $produtoDetalhe = $this->produtoDetalhe->create([
+            'tamanho' => $request->tamanho,
+            'pessoas' => $request->pessoas,
+            'valor' => $request->valor,
+            'desconto' => $request->desconto,
+            'principal' => $request->principal,
+            'produto_id' => $request->produto_id,
+            'empresa_id' => $request->empresa_id,
+            'user_id' => auth()->user()->id,
+        ]);
         // Retorna em formato JSON o registro inserido
         return response()->json($produtoDetalhe, 201);
     }
@@ -160,7 +169,7 @@ class ProdutoDetalheController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $produtoDetalhe = $this->produtoDetalhe->find($id);        
+        $produtoDetalhe = $this->produtoDetalhe->find($id);
         if ($produtoDetalhe === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }
