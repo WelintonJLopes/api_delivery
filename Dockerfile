@@ -1,5 +1,5 @@
 FROM php:7.4.0-apache
-COPY src/ /var/www/
+COPY . /var/public/
 
 # Extensões php
 # manual: https://github.com/mlocati/docker-php-extension-installer
