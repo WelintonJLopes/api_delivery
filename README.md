@@ -8,6 +8,30 @@ php artisan serve
 php artisan migrate
 `````
 
+## Arquivos alterados para rodar no apache
+
+### diretório public => html
+
+### server.php
+`````
+if ($uri !== '/' && file_exists(__DIR__ . '/html' . $uri)) {
+    return false;
+}
+
+require_once __DIR__ . '/html/index.php';
+`````
+
+### app\Providers\AppServiceProvider.php
+`````
+public function register()
+{
+    $this->app->bind('path.public', function () {
+        return base_path('html');
+    });
+}
+`````
+
+
 ## Endpoint de Autenticação
 Retorna token de autenticação
 `````
