@@ -13,6 +13,8 @@ RUN chmod uga+x /usr/local/bin/install-php-extensions && sync && \
     && a2enmod rewrite \
     && chmod 0777 -R /var/www/   
 
+CMD ["/usr/sbin/apachectl", "-D", "FOREGROUND"]
+
 # Timezone correto
 ENV TZ=America/Sao_Paulo
 
