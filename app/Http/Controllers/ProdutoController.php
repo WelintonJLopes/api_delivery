@@ -26,7 +26,7 @@ class ProdutoController extends Controller
         $produtoRepository = new ProdutoRepository($this->produto);
 
         // Recupera registro da tabela de relacionamentos
-        $produtoRepository->selectAtributosRegistrosRelacionados(['produtos_detalhes', 'produtos_opcionais.opcional', 'categoria']);
+        $produtoRepository->selectAtributosRegistrosRelacionados(['produtos_detalhes', 'produtos_opcionais.opcional', 'categoria', 'empresa']);
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
@@ -119,7 +119,7 @@ class ProdutoController extends Controller
         }
 
         // Recupera modelo com relacionamentos
-        $produto = $this->produto->with(['produtos_detalhes', 'produtos_opcionais.opcional', 'categoria'])->find($produto->id);
+        $produto = $this->produto->with(['produtos_detalhes', 'produtos_opcionais.opcional', 'categoria', 'empresa'])->find($produto->id);
         // Retorna em formato JSON o registro inserido
         return response()->json($produto, 201);
     }
@@ -133,7 +133,7 @@ class ProdutoController extends Controller
     public function show($id)
     {
         // Busca na tabela por id
-        $produto = $this->produto->with(['produtos_detalhes', 'produtos_opcionais.opcional', 'categoria'])->find($id);
+        $produto = $this->produto->with(['produtos_detalhes', 'produtos_opcionais.opcional', 'categoria', 'empresa'])->find($id);
         // Verifica se a busca retornou algum registro, caso não retorne devolve msg de erro
         if ($produto === null) {
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
@@ -197,7 +197,7 @@ class ProdutoController extends Controller
         }
 
         // Recupera modelo com relacionamentos
-        $produto = $this->produto->with(['produtos_detalhes', 'produtos_opcionais.opcional', 'categoria'])->find($produto->id);
+        $produto = $this->produto->with(['produtos_detalhes', 'produtos_opcionais.opcional', 'categoria', 'empresa'])->find($produto->id);
 
         return response()->json($produto, 200);
     }

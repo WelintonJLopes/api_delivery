@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Categoria extends Model
 {
     use HasFactory;
-    protected $fillable = ['categoria'];
+    protected $fillable = ['categoria', 'icone'];
 
-    public function rules() {
+    public function rules()
+    {
         return [
-            'categoria' => 'required|unique:categorias,categoria,'.$this->id.'|min:3|max:190',
+            'categoria' => 'required|unique:categorias,categoria,' . $this->id . '|min:3|max:190',
         ];
     }
 }
