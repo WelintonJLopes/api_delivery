@@ -26,7 +26,7 @@ class CupomController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $cupomRepository->filtro($request->filtro);         
+            $cupomRepository->filtro($request->filtro);
         }
 
         // Verifica de a request tem o parametro atributos_usuario
@@ -42,10 +42,10 @@ class CupomController extends Controller
         } else {
             $cupomRepository->selectAtributosRegistrosRelacionados('empresas');
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $cupomRepository->selectAtributos($request->atributos);         
+            $cupomRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -66,7 +66,7 @@ class CupomController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $cupomRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -87,7 +87,7 @@ class CupomController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->cupom->rules());        
+        $request->validate($this->cupom->rules());
         // Salva a request na tabela e retorna o registro inserido
         $cupom = $this->cupom->create($request->all());
         // Insere o relacionamento de usuarios na tabela usuarios_cupons
@@ -170,7 +170,7 @@ class CupomController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $cupom = $this->cupom->find($id);        
+        $cupom = $this->cupom->find($id);
         if ($cupom === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

@@ -11,7 +11,7 @@ class LogController extends Controller
 {
     public function __construct(Log $log)
     {
-        $this->log = $log; 
+        $this->log = $log;
     }
 
     /**
@@ -26,12 +26,12 @@ class LogController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $logRepository->filtro($request->filtro);         
+            $logRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $logRepository->selectAtributos($request->atributos);         
+            $logRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -52,7 +52,7 @@ class LogController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $logRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -73,7 +73,7 @@ class LogController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->log->rules());        
+        $request->validate($this->log->rules());
         // Salva a request na tabela e retorna o registro inserido
         $log = $this->log->create($request->all());
         // Retorna em formato JSON o registro inserido
@@ -146,7 +146,7 @@ class LogController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $log = $this->log->find($id);        
+        $log = $this->log->find($id);
         if ($log === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

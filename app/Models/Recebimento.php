@@ -11,9 +11,10 @@ class Recebimento extends Model
     protected $table = 'recebimentos';
     protected $fillable = ['recebimento'];
 
-    public function rules() {
+    public function rules()
+    {
         return [
-            'recebimento' => 'required|unique:recebimentos,recebimento,'.$this->id.'|min:3|max:100',
+            'recebimento' => 'required|unique:recebimentos,recebimento,' . $this->id . '|min:3|max:100',
         ];
     }
 

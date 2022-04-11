@@ -12,7 +12,7 @@ class EmpresaCategoriaController extends Controller
 {
     public function __construct(EmpresaCategoria $empresaCategoria)
     {
-        $this->empresaCategoria = $empresaCategoria; 
+        $this->empresaCategoria = $empresaCategoria;
     }
 
     /**
@@ -30,12 +30,12 @@ class EmpresaCategoriaController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $empresaCategoriaRepository->filtro($request->filtro);         
+            $empresaCategoriaRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $empresaCategoriaRepository->selectAtributos($request->atributos);         
+            $empresaCategoriaRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -56,7 +56,7 @@ class EmpresaCategoriaController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $empresaCategoriaRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -86,7 +86,7 @@ class EmpresaCategoriaController extends Controller
         }
 
         // Recebe a request e valida os campos
-        $request->validate($this->empresaCategoria->rules());        
+        $request->validate($this->empresaCategoria->rules());
         // Salva a request na tabela e retorna o registro inserido
         $empresaCategoria = $this->empresaCategoria->create($request->all());
         // Recupera modelo com relacionamentos
@@ -167,7 +167,7 @@ class EmpresaCategoriaController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $empresaCategoria = $this->empresaCategoria->find($id);        
+        $empresaCategoria = $this->empresaCategoria->find($id);
         if ($empresaCategoria === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

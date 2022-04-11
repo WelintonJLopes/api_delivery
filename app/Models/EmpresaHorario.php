@@ -11,7 +11,8 @@ class EmpresaHorario extends Model
     protected $table = 'empresas_horarios';
     protected $fillable = ['dia', 'abertura', 'fechamento', 'intervalo', 'volta_intervalo', 'empresa_id', 'user_id'];
 
-    public function rules() {
+    public function rules()
+    {
         return [
             'dia' => 'required',
             'abertura' => 'required',

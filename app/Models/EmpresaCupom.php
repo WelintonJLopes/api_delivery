@@ -11,7 +11,8 @@ class EmpresaCupom extends Model
     protected $table = 'empresas_cupons';
     protected $fillable = ['quantidade', 'empresa_id', 'cupom_id', 'user_id'];
 
-    public function rules() {
+    public function rules()
+    {
         return [
             'quantidade' => 'required|integer',
             'empresa_id' => 'required|exists:empresas,id',

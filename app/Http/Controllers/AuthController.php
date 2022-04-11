@@ -26,8 +26,8 @@ class AuthController extends Controller
 
     public function me()
     {
-        $userAuth = auth()->user(); 
-        
+        $userAuth = auth()->user();
+
         $user = $this->user->with(['grupo.permissoes', 'usuarios_enderecos.cidade', 'usuarios_enderecos.estado'])->find($userAuth->id);
 
         return response()->json($user);

@@ -26,12 +26,12 @@ class EstadoController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $estadoRepository->filtro($request->filtro);         
+            $estadoRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $estadoRepository->selectAtributos($request->atributos);         
+            $estadoRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -52,7 +52,7 @@ class EstadoController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $estadoRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -73,7 +73,7 @@ class EstadoController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->estado->rules());        
+        $request->validate($this->estado->rules());
         // Salva a request na tabela e retorna o registro inserido
         $estado = $this->estado->create($request->all());
         // Retorna em formato JSON o registro inserido
@@ -146,7 +146,7 @@ class EstadoController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $estado = $this->estado->find($id);        
+        $estado = $this->estado->find($id);
         if ($estado === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

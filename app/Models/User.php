@@ -19,8 +19,9 @@ class User extends Authenticatable implements JWTSubject
      * @var string[]
      */
     protected $fillable = ['name', 'email', 'telefone', 'password', 'icone', 'data_nascimento', 'sexo', 'cpf', 'status', 'grupo_id', 'cidade_id'];
-    
-    public function rules() {
+
+    public function rules()
+    {
         return [
             'name' => 'required|min:3|max:100',
             'email' => 'required|email|min:3|max:190',
@@ -28,7 +29,7 @@ class User extends Authenticatable implements JWTSubject
             'password' => 'required|min:4|max:255',
             'data_nascimento' => 'date',
             'sexo' => 'min:1|max:1',
-            'cpf' => 'unique:users,cpf,'.$this->id,
+            'cpf' => 'unique:users,cpf,' . $this->id,
             'status' => 'required|boolean',
             'grupo_id' => 'required|exists:grupos,id',
             'cidade_id' => 'required|exists:cidades,id',

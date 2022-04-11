@@ -23,18 +23,18 @@ class UserController extends Controller
     {
         // Instancia um objeto do tipo Repository passando o modelo user
         $userRepository = new UserRepository($this->user);
-        
+
         // Recupera registro da tabela de relacionamentos
         $userRepository->selectAtributosRegistrosRelacionados(['grupo.permissoes', 'usuarios_enderecos.cidade', 'usuarios_enderecos.estado']);
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $userRepository->filtro($request->filtro);         
+            $userRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $userRepository->selectAtributos($request->atributos);         
+            $userRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -55,7 +55,7 @@ class UserController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $userRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -78,7 +78,7 @@ class UserController extends Controller
         // Recebe a request e valida os campos
         $request->validate($this->user->rules());
         // Cryptografia da Senha
-        $passCrypt = bcrypt($request->password);        
+        $passCrypt = bcrypt($request->password);
         // Salva a request na tabela e retorna o registro inserido
         $user = $this->user->create([
             'name' => $request->name,
@@ -153,10 +153,10 @@ class UserController extends Controller
             $passCrypt = bcrypt($request->password);
             $user->password = $passCrypt;
         }
-        
+
         // Atualiza o updated_at
         $user->updated_at = date('Y-m-d H:i:s');
-        
+
         // Salva a instancia do modelo atualizada pela request no banco
         $user->save();
 
@@ -175,7 +175,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $user = $this->user->find($id);        
+        $user = $this->user->find($id);
         if ($user === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

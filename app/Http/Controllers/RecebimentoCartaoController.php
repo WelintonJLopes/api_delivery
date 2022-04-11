@@ -11,7 +11,7 @@ class RecebimentoCartaoController extends Controller
 {
     public function __construct(RecebimentoCartao $recebimentoCartao)
     {
-        $this->recebimentoCartao = $recebimentoCartao; 
+        $this->recebimentoCartao = $recebimentoCartao;
     }
 
     /**
@@ -26,12 +26,12 @@ class RecebimentoCartaoController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $recebimentoCartaoRepository->filtro($request->filtro);         
+            $recebimentoCartaoRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $recebimentoCartaoRepository->selectAtributos($request->atributos);         
+            $recebimentoCartaoRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -52,7 +52,7 @@ class RecebimentoCartaoController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $recebimentoCartaoRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -73,7 +73,7 @@ class RecebimentoCartaoController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->recebimentoCartao->rules());        
+        $request->validate($this->recebimentoCartao->rules());
         // Salva a request na tabela e retorna o registro inserido
         $recebimentoCartao = $this->recebimentoCartao->create($request->all());
         // Retorna em formato JSON o registro inserido
@@ -146,7 +146,7 @@ class RecebimentoCartaoController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $recebimentoCartao = $this->recebimentoCartao->find($id);        
+        $recebimentoCartao = $this->recebimentoCartao->find($id);
         if ($recebimentoCartao === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

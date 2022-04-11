@@ -12,7 +12,7 @@ class EmpresaRecebimentoController extends Controller
 {
     public function __construct(EmpresaRecebimento $empresaRecebimento)
     {
-        $this->empresaRecebimento = $empresaRecebimento; 
+        $this->empresaRecebimento = $empresaRecebimento;
     }
 
     /**
@@ -30,12 +30,12 @@ class EmpresaRecebimentoController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $empresaRecebimentoRepository->filtro($request->filtro);         
+            $empresaRecebimentoRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $empresaRecebimentoRepository->selectAtributos($request->atributos);         
+            $empresaRecebimentoRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -56,7 +56,7 @@ class EmpresaRecebimentoController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $empresaRecebimentoRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -86,7 +86,7 @@ class EmpresaRecebimentoController extends Controller
         }
 
         // Recebe a request e valida os campos
-        $request->validate($this->empresaRecebimento->rules());        
+        $request->validate($this->empresaRecebimento->rules());
         // Salva a request na tabela e retorna o registro inserido
         $empresaRecebimento = $this->empresaRecebimento->create($request->all());
         // Recupera modelo com relacionamentos
@@ -167,7 +167,7 @@ class EmpresaRecebimentoController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $empresaRecebimento = $this->empresaRecebimento->find($id);        
+        $empresaRecebimento = $this->empresaRecebimento->find($id);
         if ($empresaRecebimento === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

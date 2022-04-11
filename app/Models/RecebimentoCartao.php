@@ -11,7 +11,8 @@ class RecebimentoCartao extends Model
     protected $table = 'recebimentos_cartoes';
     protected $fillable = ['administradora', 'bandeira', 'recebimento_id'];
 
-    public function rules() {
+    public function rules()
+    {
         return [
             'administradora' => 'required',
             'bandeira' => 'required',

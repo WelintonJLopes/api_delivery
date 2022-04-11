@@ -11,7 +11,7 @@ class PermissaoController extends Controller
 {
     public function __construct(Permissao $permissao)
     {
-        $this->permissao = $permissao; 
+        $this->permissao = $permissao;
     }
 
     /**
@@ -26,12 +26,12 @@ class PermissaoController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $permissaoRepository->filtro($request->filtro);         
+            $permissaoRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $permissaoRepository->selectAtributos($request->atributos);         
+            $permissaoRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -52,7 +52,7 @@ class PermissaoController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $permissaoRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -73,7 +73,7 @@ class PermissaoController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->permissao->rules());        
+        $request->validate($this->permissao->rules());
         // Salva a request na tabela e retorna o registro inserido
         $permissao = $this->permissao->create($request->all());
         // Retorna em formato JSON o registro inserido
@@ -146,7 +146,7 @@ class PermissaoController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $permissao = $this->permissao->find($id);        
+        $permissao = $this->permissao->find($id);
         if ($permissao === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

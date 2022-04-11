@@ -11,7 +11,7 @@ class GrupoController extends Controller
 {
     public function __construct(Grupo $grupo)
     {
-        $this->grupo = $grupo; 
+        $this->grupo = $grupo;
     }
 
     /**
@@ -29,12 +29,12 @@ class GrupoController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $grupoRepository->filtro($request->filtro);         
+            $grupoRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $grupoRepository->selectAtributos($request->atributos);         
+            $grupoRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -55,7 +55,7 @@ class GrupoController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $grupoRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -76,7 +76,7 @@ class GrupoController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->grupo->rules());        
+        $request->validate($this->grupo->rules());
         // Salva a request na tabela e retorna o registro inserido
         $grupo = $this->grupo->create($request->all());
         // Recupera modelo com relacionamentos
@@ -153,7 +153,7 @@ class GrupoController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $grupo = $this->grupo->find($id);        
+        $grupo = $this->grupo->find($id);
         if ($grupo === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

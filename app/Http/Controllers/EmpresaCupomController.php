@@ -12,7 +12,7 @@ class EmpresaCupomController extends Controller
 {
     public function __construct(EmpresaCupom $empresaCupom)
     {
-        $this->empresaCupom = $empresaCupom; 
+        $this->empresaCupom = $empresaCupom;
     }
 
     /**
@@ -30,12 +30,12 @@ class EmpresaCupomController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $empresaCupomRepository->filtro($request->filtro);         
+            $empresaCupomRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $empresaCupomRepository->selectAtributos($request->atributos);         
+            $empresaCupomRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -56,7 +56,7 @@ class EmpresaCupomController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $empresaCupomRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -86,7 +86,7 @@ class EmpresaCupomController extends Controller
         }
 
         // Recebe a request e valida os campos
-        $request->validate($this->empresaCupom->rules());        
+        $request->validate($this->empresaCupom->rules());
         // Salva a request na tabela e retorna o registro inserido
         $empresaCupom = $this->empresaCupom->create($request->all());
         // Recupera modelo com relacionamentos
@@ -167,7 +167,7 @@ class EmpresaCupomController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $empresaCupom = $this->empresaCupom->find($id);        
+        $empresaCupom = $this->empresaCupom->find($id);
         if ($empresaCupom === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

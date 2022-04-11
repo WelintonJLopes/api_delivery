@@ -9,8 +9,9 @@ class Pedido extends Model
 {
     use HasFactory;
     protected $fillable = ['data_aceite', 'data_entrega', 'data_cancelamento', 'motivo_cancelamento', 'observacao', 'valor', 'troco', 'user_id', 'usuario_endereco_id', 'empresa_id', 'recebimento_id', 'recebimento_cartao_id', 'pedido_status_id', 'cupom_id'];
-    
-    public function rules() {
+
+    public function rules()
+    {
         return [
             'valor' => 'numeric',
             'troco' => 'numeric',

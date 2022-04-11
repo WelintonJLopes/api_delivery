@@ -11,7 +11,7 @@ class CidadeController extends Controller
 {
     public function __construct(Cidade $cidade)
     {
-        $this->cidade = $cidade; 
+        $this->cidade = $cidade;
     }
 
     /**
@@ -26,12 +26,12 @@ class CidadeController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $cidadeRepository->filtro($request->filtro);         
+            $cidadeRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $cidadeRepository->selectAtributos($request->atributos);         
+            $cidadeRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -52,7 +52,7 @@ class CidadeController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $cidadeRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -73,7 +73,7 @@ class CidadeController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->cidade->rules());        
+        $request->validate($this->cidade->rules());
         // Salva a request na tabela e retorna o registro inserido
         $cidade = $this->cidade->create($request->all());
         // Retorna em formato JSON o registro inserido
@@ -146,7 +146,7 @@ class CidadeController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $cidade = $this->cidade->find($id);        
+        $cidade = $this->cidade->find($id);
         if ($cidade === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }
