@@ -29,12 +29,12 @@ class EmpresaController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $empresaRepository->filtro($request->filtro);         
+            $empresaRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $empresaRepository->selectAtributos($request->atributos);         
+            $empresaRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -55,7 +55,7 @@ class EmpresaController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $empresaRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -76,7 +76,7 @@ class EmpresaController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->empresa->rules());        
+        $request->validate($this->empresa->rules());
         // Salva a request na tabela e retorna o registro inserido
         $empresa = $this->empresa->create($request->all());
         // Recupera modelo com relacionamentos
@@ -144,7 +144,7 @@ class EmpresaController extends Controller
         $empresa->save();
         // Recupera modelo com relacionamentos
         $empresa = $this->empresa->with(['cidade', 'estado', 'empresas_categorias.categoria', 'empresas_entregas.cidade', 'empresas_entregas.estado', 'empresas_horarios', 'empresas_recebimentos.recebimento'])->find($empresa->id);
-        
+
         return response()->json($empresa, 200);
     }
 
@@ -157,7 +157,7 @@ class EmpresaController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $empresa = $this->empresa->find($id);        
+        $empresa = $this->empresa->find($id);
         if ($empresa === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

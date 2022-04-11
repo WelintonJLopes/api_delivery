@@ -11,7 +11,8 @@ class ProdutoOpcional extends Model
     protected $table = 'produtos_opcionais';
     protected $fillable = ['produto_id', 'opcional_id', 'user_id', 'empresa_id'];
 
-    public function rules() {
+    public function rules()
+    {
         return [
             'produto_id' => 'required|exists:produtos,id',
             'opcional_id' => 'required|exists:opcionais,id',

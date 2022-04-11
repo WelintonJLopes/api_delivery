@@ -6,6 +6,8 @@ use App\Models\Empresa;
 use App\Models\Produto;
 use App\Repositories\ProdutoRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 use function GuzzleHttp\Promise\all;
 
 class ProdutoController extends Controller
@@ -87,13 +89,18 @@ class ProdutoController extends Controller
 
         // Recebe a request e valida os campos
         $request->validate($this->produto->rules());
+
+        // Salva o arquivo no storage
+        $imagem = $request->imagem;
+        $url_urn = $imagem->store('produtos/imagens', 'public');
+
         // Salva a request na tabela e retorna o registro inserido
         $produto = $this->produto->create([
             'produto' => $request->produto,
             'descricao' => $request->descricao,
             'categoria_id' => $request->categoria_id,
             'status' => $request->status,
-            'imagem' => $request->imagem,
+            'imagem' => $url_urn,
             'destaque' => $request->destaque,
             'empresa_id' => $request->empresa_id,
             'user_id' => auth()->user()->id,
@@ -175,8 +182,19 @@ class ProdutoController extends Controller
             $request->validate($produto->rules());
         }
 
+        // Remove um arquivo caso outro tenha sido enviado 
+        if ($request->imagem) {
+            Storage::disk('public')->delete($produto->imagem);
+            $imagem = $request->imagem;
+            $url_urn = $imagem->store('produtos/imagens', 'public');
+        } else {
+            $url_urn = $produto->imagem;
+        }
+
         // Preencher a instancia do medelo de produto com a request encaminhada
         $produto->fill($request->all());
+        // Sobrescreve o valor da url atualizado ou não
+        $produto->imagem = $url_urn;
         // Atualiza o updated_at
         $produto->updated_at = date('Y-m-d H:i:s');
         // Salva a instancia do modelo atualizada pela request no banco
@@ -219,6 +237,9 @@ class ProdutoController extends Controller
         if ($produto->user_id != auth()->user()->id) {
             return response()->json(['erro' => 'Usuário não tem permissão de deletar o recurso solicitado!'], 403);
         }
+
+        // Deleta a imagem do storage
+        Storage::disk('public')->delete($produto->imagem);
 
         $produto->produtos_opcionais()->delete();
         $produto->cardapios_produtos()->delete();

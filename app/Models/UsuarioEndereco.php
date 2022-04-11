@@ -11,7 +11,8 @@ class UsuarioEndereco extends Model
     protected $table = 'usuarios_enderecos';
     protected $fillable = ['apelido', 'rua', 'numero', 'bairro', 'complemento', 'cep', 'principal', 'user_id', 'cidade_id', 'estado_id'];
 
-    public function rules() {
+    public function rules()
+    {
         return [
             'apelido' => 'required',
             'rua' => 'required',

@@ -10,14 +10,15 @@ class Empresa extends Model
     use HasFactory;
     protected $fillable = ['empresa', 'cnpj', 'imagem', 'sobre', 'telefone', 'email', 'rua', 'numero', 'bairro', 'complemento', 'cep', 'status', 'status_funcionamento', 'entrega', 'taxa_entrega', 'valor_minimo_pedido', 'user_id', 'cidade_id', 'estado_id'];
 
-    public function rules() {
+    public function rules()
+    {
         return [
-            'empresa' => 'required|unique:empresas,empresa,'.$this->id.'|min:3|max:190',
-            'cnpj' => 'integer|unique:empresas,cnpj,'.$this->id.'|min:10|max:15',
+            'empresa' => 'required|unique:empresas,empresa,' . $this->id . '|min:3|max:190',
+            'cnpj' => 'integer|unique:empresas,cnpj,' . $this->id . '|min:10|max:15',
             /* 'imagem' => 'file|mimes:png,jpeg,jpg', */
             'sobre' => 'required',
             'telefone' => 'required|integer',
-            'email' => 'email|unique:empresas,email,'.$this->id,
+            'email' => 'email|unique:empresas,email,' . $this->id,
             'rua' => 'required',
             'numero' => 'required|integer',
             'bairro' => 'required',

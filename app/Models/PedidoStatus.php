@@ -10,7 +10,8 @@ class PedidoStatus extends Model
     use HasFactory;
     protected $table = 'pedidos_status';
     protected $fillable = ['status'];
-    public function rules() {
+    public function rules()
+    {
         return [
             'status' => 'required',
         ];

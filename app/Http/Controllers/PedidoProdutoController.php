@@ -11,7 +11,7 @@ class PedidoProdutoController extends Controller
 {
     public function __construct(PedidoProduto $pedidoProduto)
     {
-        $this->pedidoProduto = $pedidoProduto; 
+        $this->pedidoProduto = $pedidoProduto;
     }
 
     /**
@@ -29,12 +29,12 @@ class PedidoProdutoController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $pedidoProdutoRepository->filtro($request->filtro);         
+            $pedidoProdutoRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $pedidoProdutoRepository->selectAtributos($request->atributos);         
+            $pedidoProdutoRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -55,7 +55,7 @@ class PedidoProdutoController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $pedidoProdutoRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -76,7 +76,7 @@ class PedidoProdutoController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->pedidoProduto->rules());        
+        $request->validate($this->pedidoProduto->rules());
         // Salva a request na tabela e retorna o registro inserido
         $pedidoProduto = $this->pedidoProduto->create($request->all());
         // Recupera modelo com relacionamentos
@@ -153,7 +153,7 @@ class PedidoProdutoController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $pedidoProduto = $this->pedidoProduto->find($id);        
+        $pedidoProduto = $this->pedidoProduto->find($id);
         if ($pedidoProduto === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

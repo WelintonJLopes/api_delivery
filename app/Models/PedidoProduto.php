@@ -10,7 +10,8 @@ class PedidoProduto extends Model
     use HasFactory;
     protected $table = 'pedidos_produtos';
     protected $fillable = ['valor', 'desconto', 'quantidade', 'observacao', 'pedido_id', 'produto_id', 'produto_detalhe_id', 'user_id', 'empresa_id'];
-    public function rules() {
+    public function rules()
+    {
         return [
             'valor' => 'required|numeric',
             'desconto' => 'required|numeric',

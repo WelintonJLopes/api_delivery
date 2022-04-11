@@ -12,7 +12,7 @@ class UsuarioEnderecoController extends Controller
 {
     public function __construct(UsuarioEndereco $usuarioEndereco)
     {
-        $this->usuarioEndereco = $usuarioEndereco; 
+        $this->usuarioEndereco = $usuarioEndereco;
     }
 
     /**
@@ -30,12 +30,12 @@ class UsuarioEnderecoController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $usuarioEnderecoRepository->filtro($request->filtro);         
+            $usuarioEnderecoRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $usuarioEnderecoRepository->selectAtributos($request->atributos);         
+            $usuarioEnderecoRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -56,7 +56,7 @@ class UsuarioEnderecoController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $usuarioEnderecoRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -86,7 +86,7 @@ class UsuarioEnderecoController extends Controller
         }
 
         // Recebe a request e valida os campos
-        $request->validate($this->usuarioEndereco->rules());        
+        $request->validate($this->usuarioEndereco->rules());
         // Salva a request na tabela e retorna o registro inserido
         $usuarioEndereco = $this->usuarioEndereco->create($request->all());
         // Recupera modelo com relacionamentos
@@ -163,7 +163,7 @@ class UsuarioEnderecoController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $usuarioEndereco = $this->usuarioEndereco->find($id);        
+        $usuarioEndereco = $this->usuarioEndereco->find($id);
         if ($usuarioEndereco === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

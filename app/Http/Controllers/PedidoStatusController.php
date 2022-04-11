@@ -26,12 +26,12 @@ class PedidoStatusController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $pedidoStatusRepository->filtro($request->filtro);         
+            $pedidoStatusRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $pedidoStatusRepository->selectAtributos($request->atributos);         
+            $pedidoStatusRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -52,7 +52,7 @@ class PedidoStatusController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $pedidoStatusRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -73,7 +73,7 @@ class PedidoStatusController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->pedidoStatus->rules());        
+        $request->validate($this->pedidoStatus->rules());
         // Salva a request na tabela e retorna o registro inserido
         $pedidoStatus = $this->pedidoStatus->create($request->all());
         // Retorna em formato JSON o registro inserido
@@ -146,7 +146,7 @@ class PedidoStatusController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $pedidoStatus = $this->pedidoStatus->find($id);        
+        $pedidoStatus = $this->pedidoStatus->find($id);
         if ($pedidoStatus === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

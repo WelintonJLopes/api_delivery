@@ -10,9 +10,10 @@ class Permissao extends Model
     use HasFactory;
     protected $table = 'permissoes';
     protected $fillable = ['permissao', 'descricao', 'grupo_id'];
-    public function rules() {
+    public function rules()
+    {
         return [
-            'permissao' => 'required|unique:permissoes,permissao,'.$this->id.'|min:3|max:190',
+            'permissao' => 'required|unique:permissoes,permissao,' . $this->id . '|min:3|max:190',
             'descricao' => 'required',
             'grupo_id' => 'required|exists:grupos,id'
         ];

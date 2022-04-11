@@ -12,7 +12,7 @@ class EmpresaHorarioController extends Controller
 {
     public function __construct(EmpresaHorario $empresaHorario)
     {
-        $this->empresaHorario = $empresaHorario; 
+        $this->empresaHorario = $empresaHorario;
     }
 
     /**
@@ -27,12 +27,12 @@ class EmpresaHorarioController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $empresaHorarioRepository->filtro($request->filtro);         
+            $empresaHorarioRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $empresaHorarioRepository->selectAtributos($request->atributos);         
+            $empresaHorarioRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -53,7 +53,7 @@ class EmpresaHorarioController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $empresaHorarioRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -83,7 +83,7 @@ class EmpresaHorarioController extends Controller
         }
 
         // Recebe a request e valida os campos
-        $request->validate($this->empresaHorario->rules());        
+        $request->validate($this->empresaHorario->rules());
         // Salva a request na tabela e retorna o registro inserido
         $empresaHorario = $this->empresaHorario->create($request->all());
         // Retorna em formato JSON o registro inserido
@@ -160,7 +160,7 @@ class EmpresaHorarioController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $empresaHorario = $this->empresaHorario->find($id);        
+        $empresaHorario = $this->empresaHorario->find($id);
         if ($empresaHorario === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

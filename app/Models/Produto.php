@@ -14,7 +14,7 @@ class Produto extends Model
         return [
             'produto' => 'required|min:3|max:190',
             'descricao' => 'required|min:3|max:190',
-            /* 'imagem' => 'file|mimes:png,jpeg,jpg', */
+            'imagem' => 'file|mimes:png,jpeg,jpg',
             'status' => 'required|boolean',
             'empresa_id' => 'required|exists:empresas,id',
             'categoria_id' => 'required|exists:categorias,id',

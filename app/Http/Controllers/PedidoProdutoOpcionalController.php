@@ -11,7 +11,7 @@ class PedidoProdutoOpcionalController extends Controller
 {
     public function __construct(PedidoProdutoOpcional $pedidoProdutoOpcional)
     {
-        $this->pedidoProdutoOpcional = $pedidoProdutoOpcional; 
+        $this->pedidoProdutoOpcional = $pedidoProdutoOpcional;
     }
 
     /**
@@ -29,12 +29,12 @@ class PedidoProdutoOpcionalController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $pedidoProdutoOpcionalRepository->filtro($request->filtro);         
+            $pedidoProdutoOpcionalRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $pedidoProdutoOpcionalRepository->selectAtributos($request->atributos);         
+            $pedidoProdutoOpcionalRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -55,7 +55,7 @@ class PedidoProdutoOpcionalController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $pedidoProdutoOpcionalRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -76,7 +76,7 @@ class PedidoProdutoOpcionalController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->pedidoProdutoOpcional->rules());        
+        $request->validate($this->pedidoProdutoOpcional->rules());
         // Salva a request na tabela e retorna o registro inserido
         $pedidoProdutoOpcional = $this->pedidoProdutoOpcional->create($request->all());
         // Recupera modelo com relacionamentos
@@ -153,7 +153,7 @@ class PedidoProdutoOpcionalController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $pedidoProdutoOpcional = $this->pedidoProdutoOpcional->find($id);        
+        $pedidoProdutoOpcional = $this->pedidoProdutoOpcional->find($id);
         if ($pedidoProdutoOpcional === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

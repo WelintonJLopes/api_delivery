@@ -11,7 +11,8 @@ class EmpresaEntrega extends Model
     protected $table = 'empresas_entregas';
     protected $fillable = ['taxa_entrega', 'empresa_id', 'cidade_id', 'estado_id', 'user_id'];
 
-    public function rules() {
+    public function rules()
+    {
         return [
             'taxa_entrega' => 'required|numeric',
             'empresa_id' => 'required|exists:empresas,id',

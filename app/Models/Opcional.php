@@ -11,7 +11,8 @@ class Opcional extends Model
     protected $table = 'opcionais';
     protected $fillable = ['opcional', 'descricao', 'valor', 'status', 'minimo', 'maximo', 'user_id', 'empresa_id'];
 
-    public function rules() {
+    public function rules()
+    {
         return [
             'opcional' => 'required',
             'valor' => 'required|numeric',

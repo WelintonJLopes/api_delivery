@@ -11,7 +11,7 @@ class RecebimentoController extends Controller
 {
     public function __construct(Recebimento $recebimento)
     {
-        $this->recebimento = $recebimento; 
+        $this->recebimento = $recebimento;
     }
 
     /**
@@ -29,12 +29,12 @@ class RecebimentoController extends Controller
 
         // Verifica se a resquest tem o parametro filtro
         if ($request->has('filtro')) {
-            $recebimentoRepository->filtro($request->filtro);         
+            $recebimentoRepository->filtro($request->filtro);
         }
-        
+
         // Verifica se a resquest tem o parametro atributos
         if ($request->has('atributos')) {
-            $recebimentoRepository->selectAtributos($request->atributos);         
+            $recebimentoRepository->selectAtributos($request->atributos);
         }
 
         // Verifica se a resquest tem o parametro order
@@ -55,7 +55,7 @@ class RecebimentoController extends Controller
         // Verifica se a resquest tem o parametro limite
         if ($request->has('limite')) {
             $recebimentoRepository->limiteRegistros($request->limite);
-        }        
+        }
 
         // Verifica se a resquest tem o parametro paginas
         if ($request->has('paginas')) {
@@ -76,7 +76,7 @@ class RecebimentoController extends Controller
     public function store(Request $request)
     {
         // Recebe a request e valida os campos
-        $request->validate($this->recebimento->rules());        
+        $request->validate($this->recebimento->rules());
         // Salva a request na tabela e retorna o registro inserido
         $recebimento = $this->recebimento->create($request->all());
         // Recupera modelo com relacionamentos
@@ -153,7 +153,7 @@ class RecebimentoController extends Controller
     public function destroy($id)
     {
         // Verifica se o registro encaminhado pela request existe no banco
-        $recebimento = $this->recebimento->find($id);        
+        $recebimento = $this->recebimento->find($id);
         if ($recebimento === null) {
             return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe!'], 404);
         }

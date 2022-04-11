@@ -10,7 +10,8 @@ class Log extends Model
     use HasFactory;
     protected $fillable = ['log', 'user_id'];
 
-    public function rules() {
+    public function rules()
+    {
         return [
             'log' => 'required',
             'user_id' => 'required|exists:users,id'
