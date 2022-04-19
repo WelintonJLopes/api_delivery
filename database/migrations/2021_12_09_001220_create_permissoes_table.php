@@ -19,8 +19,6 @@ class CreatePermissoesTable extends Migration
             $table->text('descricao');
             $table->timestamps();
             $table->unsignedBigInteger('grupo_id');
-
-            $table->foreign('grupo_id')->references('id')->on('grupos');
         });
     }
 
@@ -31,10 +29,6 @@ class CreatePermissoesTable extends Migration
      */
     public function down()
     {
-        Schema::table('permissoes', function(Blueprint $table){
-            $table->dropForeign('permissoes_grupo_id_foreign');
-        });
-
         Schema::dropIfExists('permissoes');
     }
 }

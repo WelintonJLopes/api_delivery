@@ -25,12 +25,6 @@ class CreatePedidosProdutosTable extends Migration
             $table->unsignedBigInteger('pedido_id');
             $table->unsignedBigInteger('produto_id');
             $table->unsignedBigInteger('produto_detalhe_id');
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('empresa_id')->references('id')->on('empresas');
-            $table->foreign('pedido_id')->references('id')->on('pedidos');
-            $table->foreign('produto_id')->references('id')->on('produtos');
-            $table->foreign('produto_detalhe_id')->references('id')->on('produtos_detalhes');
         });
     }
 
@@ -41,14 +35,6 @@ class CreatePedidosProdutosTable extends Migration
      */
     public function down()
     {
-        Schema::table('pedidos_produtos', function (Blueprint $table) {
-            $table->dropForeign('pedidos_produtos_user_id_foreign');
-            $table->dropForeign('pedidos_produtos_empresa_id_foreign');
-            $table->dropForeign('pedidos_produtos_pedido_id_foreign');
-            $table->dropForeign('pedidos_produtos_produto_id_foreign');
-            $table->dropForeign('pedidos_produtos_produto_detalhe_id_foreign');
-        });
-
         Schema::dropIfExists('pedidos_produtos');
     }
 }

@@ -19,8 +19,6 @@ class CreateRecebimentosCartoesTable extends Migration
             $table->string('bandeira', 100);
             $table->timestamps();
             $table->unsignedBigInteger('recebimento_id');
-
-            $table->foreign('recebimento_id')->references('id')->on('recebimentos');
         });
     }
 
@@ -31,7 +29,7 @@ class CreateRecebimentosCartoesTable extends Migration
      */
     public function down()
     {
-        Schema::table('recebimentos_cartoes', function(Blueprint $table){
+        Schema::table('recebimentos_cartoes', function (Blueprint $table) {
             $table->dropForeign('recebimentos_cartoes_recebimento_id_foreign');
         });
 

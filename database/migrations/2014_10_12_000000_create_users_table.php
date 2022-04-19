@@ -29,9 +29,6 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('grupo_id');
             $table->unsignedBigInteger('cidade_id');
-
-            $table->foreign('grupo_id')->references('id')->on('grupos');
-            $table->foreign('cidade_id')->references('id')->on('cidades');
         });
     }
 
@@ -42,11 +39,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function(Blueprint $table){
-            $table->dropForeign('users_grupo_id_foreign');
-            $table->dropForeign('users_cidade_id_foreign');
-        });
-
         Schema::dropIfExists('users');
     }
 }

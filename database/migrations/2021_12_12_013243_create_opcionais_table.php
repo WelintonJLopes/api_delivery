@@ -24,9 +24,6 @@ class CreateOpcionaisTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('empresa_id');
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('empresa_id')->references('id')->on('empresas');
         });
     }
 
@@ -37,11 +34,6 @@ class CreateOpcionaisTable extends Migration
      */
     public function down()
     {
-        Schema::table('opcionais', function(Blueprint $table){
-            $table->dropForeign('opcionais_user_id_foreign');
-            $table->dropForeign('opcionais_empresa_id_foreign');
-        });
-
         Schema::dropIfExists('opcionais');
     }
 }
