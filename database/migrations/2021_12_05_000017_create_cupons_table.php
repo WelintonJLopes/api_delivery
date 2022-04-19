@@ -23,8 +23,6 @@ class CreateCuponsTable extends Migration
             $table->boolean('status');
             $table->timestamps();
             $table->unsignedBigInteger('user_id');
-
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -35,10 +33,6 @@ class CreateCuponsTable extends Migration
      */
     public function down()
     {
-        Schema::table('cupons', function(Blueprint $table){
-            $table->dropForeign('cupons_user_id_foreign');
-        });
-
         Schema::dropIfExists('cupons');
     }
 }

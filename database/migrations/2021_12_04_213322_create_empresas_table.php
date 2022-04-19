@@ -35,10 +35,6 @@ class CreateEmpresasTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('cidade_id');
             $table->unsignedBigInteger('estado_id');
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('cidade_id')->references('id')->on('cidades');
-            $table->foreign('estado_id')->references('id')->on('estados');
         });
     }
 
@@ -49,12 +45,6 @@ class CreateEmpresasTable extends Migration
      */
     public function down()
     {
-        Schema::table('empresas', function(Blueprint $table){
-            $table->dropForeign('empresas_user_id_foreign');
-            $table->dropForeign('empresas_cidade_id_foreign');
-            $table->dropForeign('empresas_estado_id_foreign');
-        });
-
         Schema::dropIfExists('empresas');
     }
 }

@@ -19,10 +19,6 @@ class CreateEmpresasCategoriasTable extends Migration
             $table->unsignedBigInteger('empresa_id');
             $table->unsignedBigInteger('categoria_id');
             $table->unsignedBigInteger('user_id');
-
-            $table->foreign('empresa_id')->references('id')->on('empresas');
-            $table->foreign('categoria_id')->references('id')->on('categorias');
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -33,12 +29,6 @@ class CreateEmpresasCategoriasTable extends Migration
      */
     public function down()
     {
-        Schema::table('empresas_categorias', function(Blueprint $table){
-            $table->dropForeign('empresas_categorias_empresa_id_foreign');
-            $table->dropForeign('empresas_categorias_categoria_id_foreign');
-            $table->dropForeign('empresas_categorias_user_id_foreign');
-        });
-
         Schema::dropIfExists('empresas_categorias');
     }
 }

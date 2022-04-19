@@ -22,14 +22,10 @@ class CreateUsuariosEnderecosTable extends Migration
             $table->string('complemento', 190);
             $table->integer('cep');
             $table->boolean('principal');
-            $table->timestamps();  
-            $table->unsignedBigInteger('user_id');          
+            $table->timestamps();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('cidade_id');
             $table->unsignedBigInteger('estado_id');
-            
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('cidade_id')->references('id')->on('cidades');
-            $table->foreign('estado_id')->references('id')->on('estados');
         });
     }
 
@@ -40,12 +36,6 @@ class CreateUsuariosEnderecosTable extends Migration
      */
     public function down()
     {
-        Schema::table('usuarios_enderecos', function(Blueprint $table){
-            $table->dropForeign('usuarios_enderecos_user_id_foreign');
-            $table->dropForeign('usuarios_enderecos_cidade_id_foreign');
-            $table->dropForeign('usuarios_enderecos_estado_id_foreign');
-        });
-
         Schema::dropIfExists('usuarios_enderecos');
     }
 }
