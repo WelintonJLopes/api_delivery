@@ -41,7 +41,7 @@ class RelationshipForeingKey extends Migration
         Schema::table('produtos', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('empresa_id')->references('id')->on('empresas');
-            $table->foreign('categoria_id')->references('id')->on('categoria');
+            $table->foreign('categoria_id')->references('id')->on('categorias');
         });
 
         Schema::table('logs', function (Blueprint $table) {
